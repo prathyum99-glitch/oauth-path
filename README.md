@@ -104,7 +104,9 @@ More in [docs/decisions.md](docs/decisions.md), including how the Composio toolk
 
 - **Nothing here is hand-tested.** Guides are researched from provider pages. Provider rules change; every guide shows its research date and links its sources.
 - **Seed claims are marked "not re-checked"** until `npm run verify-seeds` is run with an API key.
-- **The live path has been tested end to end only against a scripted model**, because the build environment had no API key. Run `npm run smoke` with a key before demoing.
+- **The live path has run for real on the deployed site** (QuickBooks by name, Calendly by website, about two minutes each; see `docs/verification-log.md`). The automated tests still drive it with a scripted model so they need no key.
+- **Guides vary between runs.** Two QuickBooks runs produced 26 and 31 claims. The evidence labels and the second-agent re-read are what make each guide checkable, not the model being deterministic.
+- **A public deployment spends the owner's model credit.** The per-IP limit is a rough brake. If the link will be shared widely, lower `GENERATION_LIMIT_PER_HOUR` or put an access code in front of `/new`.
 - **Browser-rendered docs are unreadable** to the fetcher (Intuit's, for one) and count as no source. Such guides lean on secondary sources or say "unverified".
 - **Quality depends on what the web search finds.** For obscure apps expect more "inferred" and "unverified" labels and shorter guides. That is the intended behaviour.
 - **The fetcher resolves a hostname to check it is public, then fetches.** A hostile DNS server could answer differently the second time. For a public demo behind a rate limit this is an accepted gap; a production version would pin the resolved address.
