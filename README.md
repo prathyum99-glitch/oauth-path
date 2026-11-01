@@ -63,6 +63,7 @@ npm run smoke -- "QuickBooks"     # real end-to-end run of the live pipeline (ne
 npm run verify-seeds              # the verifier agent re-reads every page a seed cites (add --write to record)
 npm run sync:composio             # look up managed-auth status for the seeds (needs COMPOSIO_API_KEY)
 npm run build && npm start
+npx tsx scripts/build-demo.ts out.html   # single-file review copy of the six guides, no server needed
 ```
 
 ### Deploy to Vercel
