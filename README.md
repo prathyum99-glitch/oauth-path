@@ -58,7 +58,7 @@ No key is ever sent to the browser or committed. `.env*` is git-ignored.
 ### Commands
 
 ```bash
-npm test                          # 37 tests, no network, no API key needed
+npm test                          # 42 tests, no network, no API key needed
 npm run typecheck
 npm run validate                  # seed guides: every ref, source and label is consistent
 npm run smoke -- "QuickBooks"     # real end-to-end run of the live pipeline (needs ANTHROPIC_API_KEY)
@@ -80,7 +80,8 @@ GitHub Pages (workflow in `.github/workflows/pages.yml`) can host only the stati
 
 1. Import the repo. Framework is detected as Next.js.
 2. Add `ANTHROPIC_API_KEY`. Add the Upstash Redis integration (Storage tab in Vercel; it sets `KV_REST_API_URL` and `KV_REST_API_TOKEN`, and the app also reads `UPSTASH_REDIS_REST_*`) so share links survive. Without it, a guide generated on one server instance is not found by the next request and the page says it does not exist. Redeploy after connecting it. Add `COMPOSIO_API_KEY` if you have one.
-3. The generate route sets `maxDuration = 300`. Confirm your Vercel plan allows a function that long; if it does not, lower it and expect live runs on slow providers to be cut off.
+3. Set `ACCESS_CODE` to any phrase if the link will be shared. The Investigate page then asks for it before running the agent (wrong codes are throttled). The guides, share links and home page stay open to everyone. Leave it unset for an open demo.
+4. The generate route sets `maxDuration = 300`. Confirm your Vercel plan allows a function that long; if it does not, lower it and expect live runs on slow providers to be cut off.
 
 ## How the live agent works
 
@@ -125,6 +126,6 @@ src/lib/storage.ts     Redis or file storage, seeds first
 src/lib/integrity.ts   consistency checks on any guide
 src/app/               pages and the streaming /api/generate route
 data/guides/*.json     the six researched guides
-tests/                 37 tests, scripted model, no network
+tests/                 42 tests, scripted model, no network
 docs/                  decisions and verification log
 ```

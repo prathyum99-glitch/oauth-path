@@ -22,11 +22,16 @@ type Feed = {
 };
 const EMPTY: Feed = { stage: null, stageMessages: {}, searches: [], sources: [], checks: {}, warnings: [] };
 
-export function Generator({ canGenerate }: { canGenerate: boolean }) {
+const CODE_KEY = 'oauth-path-access-code';
+
+export function Generator({ canGenerate, codeRequired }: { canGenerate: boolean; codeRequired: boolean }) {
   const router = useRouter();
   const params = useSearchParams();
   const initial = params.get('q') ?? '';
   const [query, setQuery] = useState(initial);
+  const [code, setCode] = useState('');
+  // The code remembered from earlier in this tab. Only this one may start a run by itself, never one being typed.
+  const [storedCode, setStoredCode] = useState('');
   const [running, setRunning] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [feed, setFeed] = useState<Feed>(EMPTY);
@@ -41,6 +46,19 @@ export function Generator({ canGenerate }: { canGenerate: boolean }) {
   }, [running]);
 
   useEffect(() => () => abort.current?.abort(), []);
+
+  // A code typed earlier in this tab is remembered for the tab only. Storage can be blocked, so the form works without it.
+  useEffect(() => {
+    try {
+      const saved = window.sessionStorage.getItem(CODE_KEY);
+      if (saved) {
+        setCode(saved);
+        setStoredCode(saved);
+      }
+    } catch {
+      /* storage unavailable */
+    }
+  }, []);
 
   const apply = useCallback((m: StreamMessage) => {
     setFeed((f) => {
@@ -75,9 +93,16 @@ export function Generator({ canGenerate }: { canGenerate: boolean }) {
         const res = await fetch('/api/generate', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ query: text }),
+          body: JSON.stringify({ query: text, ...(codeRequired ? { code: code.trim() } : {}) }),
           signal: ctl.signal,
         });
+        if (res.status === 401) {
+          try {
+            window.sessionStorage.removeItem(CODE_KEY);
+          } catch {
+            /* storage unavailable */
+          }
+        }
         if (!res.ok || !res.body) {
           let msg = 'Could not start. Try again in a moment.';
           try {
@@ -89,6 +114,13 @@ export function Generator({ canGenerate }: { canGenerate: boolean }) {
           setError(msg);
           setRunning(false);
           return;
+        }
+        if (codeRequired) {
+          try {
+            window.sessionStorage.setItem(CODE_KEY, code.trim());
+          } catch {
+            /* storage unavailable */
+          }
         }
         const reader = res.body.getReader();
         const decoder = new TextDecoder();
@@ -134,17 +166,17 @@ export function Generator({ canGenerate }: { canGenerate: boolean }) {
         setRunning(false);
       }
     },
-    [apply, router, running],
+    [apply, router, running, code, codeRequired],
   );
 
   // Only start by itself when the link says go=1 (the Investigate button). A plain /new?q=… just fills the box.
   useEffect(() => {
     if (started.current) return;
-    if (params.get('go') === '1' && initial.trim().length >= 2 && canGenerate) {
+    if (params.get('go') === '1' && initial.trim().length >= 2 && canGenerate && (!codeRequired || (storedCode !== '' && code === storedCode))) {
       started.current = true;
       void start(initial);
     }
-  }, [params, initial, canGenerate, start]);
+  }, [params, initial, canGenerate, codeRequired, code, storedCode, start]);
 
   const stageIndex = feed.stage ? STAGES.findIndex((s) => s.key === feed.stage) : -1;
   const checked = Object.keys(feed.checks).length;
@@ -160,6 +192,25 @@ export function Generator({ canGenerate }: { canGenerate: boolean }) {
           void start(query);
         }}
       >
+        {codeRequired && (
+          <div className="gen__code">
+            <label htmlFor="gen-code" className="finder__label">Access code</label>
+            <input
+              id="gen-code"
+              className="input"
+              type="password"
+              value={code}
+              onChange={(e) => setCode(e.target.value)}
+              disabled={running}
+              autoComplete="off"
+              spellCheck={false}
+              aria-describedby="gen-code-help"
+            />
+            <p id="gen-code-help" className="muted small">
+              The agent costs the site owner money, so it asks for a code. Ask the owner for it. The guides stay open to everyone.
+            </p>
+          </div>
+        )}
         <label htmlFor="gen-q" className="finder__label">App name or website</label>
         <div className="gen__row">
           <input
@@ -173,7 +224,7 @@ export function Generator({ canGenerate }: { canGenerate: boolean }) {
             autoComplete="off"
             spellCheck={false}
           />
-          <button className="btn btn--primary btn--lg" type="submit" disabled={running || !canGenerate || query.trim().length < 2}>
+          <button className="btn btn--primary btn--lg" type="submit" disabled={running || !canGenerate || query.trim().length < 2 || (codeRequired && code.trim() === '')}>
             {running ? 'Working…' : 'Investigate'}
           </button>
         </div>

@@ -286,7 +286,12 @@ a:hover {
   background: var(--link);
   color: #fff;
 }
-:root:not([data-theme='light']) .btn--primary {
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) .btn--primary {
+    color: #0f1520;
+  }
+}
+:root[data-theme='dark'] .btn--primary {
   color: #0f1520;
 }
 .btn--primary:hover {
@@ -981,6 +986,13 @@ a:hover {
 .gen__row {
   display: flex;
   gap: 12px;
+}
+.gen__code {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  max-width: 320px;
+  margin-bottom: 24px;
 }
 @media (max-width: 560px) {
   .gen__row {

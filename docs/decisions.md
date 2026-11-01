@@ -51,3 +51,7 @@ Research (search plus fetch, up to 18 turns and 14 page reads) → draft (strict
 ## What I did not build
 
 A background job to keep 100 guides fresh, a diff view between guide versions, and user accounts. For a library of 100, the next step is running `verify-seeds` on a schedule and flagging claims whose source page changed.
+
+## Access code for the agent
+
+A public link to a page that calls a paid model is an open wallet. `ACCESS_CODE` is an optional gate on `/api/generate` only: reading guides never needs it. The code is compared by hash, wrong guesses are throttled per address, and the browser remembers a correct code for that tab only. It is a brake for a demo, not an account system: anyone who is given the code can spend the credit, and the per-instance limits do not share memory across servers.

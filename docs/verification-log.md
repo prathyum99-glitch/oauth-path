@@ -50,7 +50,7 @@ Net effect of the pass: two wording corrections that would have overstated what 
 
 ## Checks that did run
 
-- `npm test`: 37 tests, including: an official claim that cites an unread page is demoted; a claim its cited page does not support is demoted and listed as a correction; research survives `pause_turn` and a strict-mode 400; fetches to localhost, private IPs, `http://`, credentials, odd ports and redirects into private space are refused; a seed slug can never be overwritten by a live guide.
+- `npm test`: 42 tests, including: an official claim that cites an unread page is demoted; a claim its cited page does not support is demoted and listed as a correction; research survives `pause_turn` and a strict-mode 400; fetches to localhost, private IPs, `http://`, credentials, odd ports and redirects into private space are refused; a seed slug can never be overwritten by a live guide.
 - `npm run validate`: every seed's references point at real claims, every cited URL is a listed source, and "official" never stands without a source that was read.
 - `next build` passes with no warnings. Home, guide and generate pages were opened at desktop and phone widths with no console errors.
 
@@ -77,3 +77,7 @@ With a `COMPOSIO_API_KEY` set on the deployment, the Calendly run showed "Compos
 ### Composio check confirmed, and a billing failure found (2026-11-01)
 
 With a fresh project key, the Calendly guide now reads: Composio toolkit "calendly" provides the OAuth app (OAUTH2). A QuickBooks re-run then failed with a vague message. The Vercel runtime log showed the cause: the Anthropic account was out of credit ("credit balance is too low"), not a bug in the pipeline. The app now says this in plain words, and also says when the model key is rejected. The QuickBooks long-name slug fix has not yet been seen on a live run for that reason.
+
+### Access code and two interface bugs (2026-11-01)
+
+Added the optional `ACCESS_CODE` gate. Checking it in a real browser caught two bugs before they shipped: typing the code started a run by itself after the first character (auto-start now uses only a code remembered earlier in the same tab), and the primary button had dark text on dark blue in light mode (contrast about 2.6:1; now 6.8:1 in light and 8.1:1 in dark).

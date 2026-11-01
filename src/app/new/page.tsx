@@ -2,6 +2,7 @@ import { Suspense } from 'react';
 import type { Metadata } from 'next';
 import { Generator } from '@/components/Generator';
 import { hasApiKey } from '@/lib/llm';
+import { accessCodeRequired } from '@/lib/access';
 
 export const metadata: Metadata = { title: 'Investigate an app' };
 export const dynamic = 'force-dynamic';
@@ -17,7 +18,7 @@ export default function NewGuide() {
         </p>
       </section>
       <Suspense fallback={<p className="muted">Loading…</p>}>
-        <Generator canGenerate={hasApiKey()} />
+        <Generator canGenerate={hasApiKey()} codeRequired={accessCodeRequired()} />
       </Suspense>
     </>
   );

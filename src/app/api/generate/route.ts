@@ -3,6 +3,7 @@ import { PipelineError, runPipeline, type PipelineEvent } from '@/lib/pipeline';
 import { liveSlugFor, persistenceMode, saveLiveGuide } from '@/lib/storage';
 import { guideProblems } from '@/lib/integrity';
 import { describeModelFailure } from '@/lib/failure';
+import { accessCodeOk, accessCodeRequired } from '@/lib/access';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -11,19 +12,20 @@ export const maxDuration = 300;
 const MAX_QUERY = 120;
 const WINDOW_MS = 60 * 60 * 1000;
 const hits = new Map<string, number[]>();
+const wrongCodes = new Map<string, number[]>();
+const WRONG_CODE_LIMIT = 10;
 
 /** Best-effort per-IP limit. Instances do not share memory, so this is a brake, not a wall. */
-function overLimit(ip: string): boolean {
-  const limit = Number(process.env.GENERATION_LIMIT_PER_HOUR ?? 6);
+function overLimit(ip: string, store: Map<string, number[]> = hits, limit = Number(process.env.GENERATION_LIMIT_PER_HOUR ?? 6)): boolean {
   if (!Number.isFinite(limit) || limit <= 0) return false;
   const now = Date.now();
-  const recent = (hits.get(ip) ?? []).filter((t) => now - t < WINDOW_MS);
+  const recent = (store.get(ip) ?? []).filter((t) => now - t < WINDOW_MS);
   if (recent.length >= limit) {
-    hits.set(ip, recent);
+    store.set(ip, recent);
     return true;
   }
   recent.push(now);
-  hits.set(ip, recent);
+  store.set(ip, recent);
   return false;
 }
 
@@ -35,11 +37,27 @@ export type StreamMessage = PipelineEvent | { type: 'done'; slug: string } | { t
 
 export async function POST(req: Request): Promise<Response> {
   let query = '';
+  let code: unknown;
   try {
-    const body = (await req.json()) as { query?: unknown };
+    const body = (await req.json()) as { query?: unknown; code?: unknown };
     query = typeof body.query === 'string' ? body.query.trim().replace(/\s+/g, ' ') : '';
+    code = body.code;
   } catch {
     return Response.json({ error: 'Send JSON like {"query":"Slack"}.' }, { status: 400 });
+  }
+  if (!accessCodeOk(code)) {
+    if (typeof code === 'string' && code.trim() !== '' && overLimit(clientIp(req), wrongCodes, WRONG_CODE_LIMIT)) {
+      return Response.json({ error: 'Too many wrong access codes from this address. Try again later.' }, { status: 429 });
+    }
+    return Response.json(
+      {
+        error:
+          typeof code === 'string' && code.trim() !== ''
+            ? 'That access code is not right.'
+            : 'This site asks for an access code before it runs the agent. The guides stay open to everyone.',
+      },
+      { status: 401 },
+    );
   }
   if (query.length < 2) return Response.json({ error: 'Enter an app name or website.' }, { status: 400 });
   if (query.length > MAX_QUERY) {
