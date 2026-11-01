@@ -58,7 +58,7 @@ No key is ever sent to the browser or committed. `.env*` is git-ignored.
 ### Commands
 
 ```bash
-npm test                          # 42 tests, no network, no API key needed
+npm test                          # 48 tests, no network, no API key needed
 npm run typecheck
 npm run validate                  # seed guides: every ref, source and label is consistent
 npm run smoke -- "QuickBooks"     # real end-to-end run of the live pipeline (needs ANTHROPIC_API_KEY)
@@ -107,6 +107,7 @@ More in [docs/decisions.md](docs/decisions.md), including how the Composio toolk
 - **Seed claims are marked "not re-checked"** until `npm run verify-seeds` is run with an API key.
 - **The live path has run for real on the deployed site** (QuickBooks by name, Calendly by website, about two minutes each; see `docs/verification-log.md`). The automated tests still drive it with a scripted model so they need no key.
 - **Guides vary between runs.** Two QuickBooks runs produced 26 and 31 claims. The evidence labels and the second-agent re-read are what make each guide checkable, not the model being deterministic.
+- **Each live guide costs model credit.** The research step re-sends what it has read on every turn, so it marks the conversation for prompt caching (the repeats bill at the cached rate; if the API rejects the marker, the run continues at full price). Every model call logs one `usage` line (tokens in, cache writes and reads, tokens out, searches) in the host's logs, so a run's real cost can be added up. The caching change was tested with a scripted model only; its saving is not yet measured.
 - **A public deployment spends the owner's model credit.** The per-IP limit is a rough brake. If the link will be shared widely, lower `GENERATION_LIMIT_PER_HOUR` or put an access code in front of `/new`.
 - **Browser-rendered docs are unreadable** to the fetcher (Intuit's, for one) and count as no source. Such guides lean on secondary sources or say "unverified".
 - **Quality depends on what the web search finds.** For obscure apps expect more "inferred" and "unverified" labels and shorter guides. That is the intended behaviour.
@@ -126,6 +127,6 @@ src/lib/storage.ts     Redis or file storage, seeds first
 src/lib/integrity.ts   consistency checks on any guide
 src/app/               pages and the streaming /api/generate route
 data/guides/*.json     the six researched guides
-tests/                 42 tests, scripted model, no network
+tests/                 48 tests, scripted model, no network
 docs/                  decisions and verification log
 ```

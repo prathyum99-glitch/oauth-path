@@ -85,6 +85,21 @@ function asParams(content: Anthropic.Message['content']): Anthropic.ContentBlock
   return content as unknown as Anthropic.ContentBlockParam[];
 }
 
+/**
+ * Returns a copy of the conversation with a cache breakpoint on its last block, so each research turn
+ * re-reads the earlier turns (pages, search results) at the cheap cached rate instead of full price.
+ * The stored conversation is never changed, so breakpoints do not pile up across turns.
+ */
+export function withCacheBreakpoint(messages: Anthropic.MessageParam[]): Anthropic.MessageParam[] {
+  const last = messages[messages.length - 1];
+  if (!last || last.role !== 'user') return messages;
+  const content: Anthropic.ContentBlockParam[] = typeof last.content === 'string' ? [{ type: 'text', text: last.content }] : [...last.content];
+  const tail = content[content.length - 1];
+  if (!tail || (tail.type !== 'text' && tail.type !== 'tool_result')) return messages;
+  content[content.length - 1] = { ...tail, cache_control: { type: 'ephemeral' } } as Anthropic.ContentBlockParam;
+  return [...messages.slice(0, -1), { role: 'user', content }];
+}
+
 /** Calls the model with one tool and returns schema-valid input. Strict mode first, plain tool if the API rejects the schema. */
 export async function callForJson<S extends z.ZodType>(
   llm: Llm,
@@ -175,6 +190,7 @@ async function research(query: string, deps: PipelineDeps, cache: PageCache): Pr
   let fetches = 0;
   let nudges = 0;
   let strictTools = true;
+  let cacheOn = true;
 
   for (let turn = 0; turn < MAX_RESEARCH_TURNS; turn++) {
     let resp: Anthropic.Message;
@@ -188,10 +204,22 @@ async function research(query: string, deps: PipelineDeps, cache: PageCache): Pr
             }
             return t;
           });
-      resp = await deps.llm.create({ model: deps.model, max_tokens: 8000, system: RESEARCH_SYSTEM, tools: toolList, messages });
+      resp = await deps.llm.create({
+        model: deps.model,
+        max_tokens: 8000,
+        system: RESEARCH_SYSTEM,
+        tools: toolList,
+        messages: cacheOn ? withCacheBreakpoint(messages) : messages,
+      });
     } catch (e) {
       if (strictTools && isBadRequest(e)) {
         strictTools = false;
+        turn--;
+        continue;
+      }
+      // If the API rejects the cache marker, carry on at full price rather than fail the run.
+      if (cacheOn && isBadRequest(e)) {
+        cacheOn = false;
         turn--;
         continue;
       }
