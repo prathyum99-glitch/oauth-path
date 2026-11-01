@@ -58,7 +58,7 @@ No key is ever sent to the browser or committed. `.env*` is git-ignored.
 ### Commands
 
 ```bash
-npm test                          # 34 tests, no network, no API key needed
+npm test                          # 37 tests, no network, no API key needed
 npm run typecheck
 npm run validate                  # seed guides: every ref, source and label is consistent
 npm run smoke -- "QuickBooks"     # real end-to-end run of the live pipeline (needs ANTHROPIC_API_KEY)
@@ -123,6 +123,6 @@ src/lib/storage.ts     Redis or file storage, seeds first
 src/lib/integrity.ts   consistency checks on any guide
 src/app/               pages and the streaming /api/generate route
 data/guides/*.json     the six researched guides
-tests/                 34 tests, scripted model, no network
+tests/                 37 tests, scripted model, no network
 docs/                  decisions and verification log
 ```

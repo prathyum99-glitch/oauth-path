@@ -2,6 +2,7 @@ import { createLlm, hasApiKey, modelName } from '@/lib/llm';
 import { PipelineError, runPipeline, type PipelineEvent } from '@/lib/pipeline';
 import { liveSlugFor, persistenceMode, saveLiveGuide } from '@/lib/storage';
 import { guideProblems } from '@/lib/integrity';
+import { describeModelFailure } from '@/lib/failure';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -89,7 +90,8 @@ export async function POST(req: Request): Promise<Response> {
         const message =
           err instanceof PipelineError
             ? err.message
-            : 'The agent hit an error before it could finish this guide. Try again, or use the app\'s developer docs URL.';
+            : (describeModelFailure(err) ??
+              'The agent hit an error before it could finish this guide. Try again, or use the app\'s developer docs URL.');
         if (!(err instanceof PipelineError)) console.error('generate failed', err);
         send({ type: 'error', message });
       } finally {
