@@ -1,0 +1,75 @@
+{
+  "slug": "discord",
+  "origin": "seed",
+  "model": null,
+  "generatedAt": "2026-11-01T06:00:00.000Z",
+  "researchedOn": "2026-11-01",
+  "app": { "name": "Discord", "website": "https://docs.discord.com/developers/topics/oauth2", "category": "Messaging and community" },
+  "summary": "Discord is self-serve: you create an application in its Developer Portal, register a redirect address, pick scopes and run the standard authorization code flow. The page read describes no review for the common scopes, and a few scopes are reserved for approved partners.",
+  "verdict": {
+    "difficulty": "easy",
+    "headline": "Create an application, register a redirect URI, use the authorization code grant. The page read describes no review for standard scopes, but some scopes are partner-only.",
+    "effort": { "label": "30 to 90 minutes", "minHours": 0.5, "maxHours": 1.5 },
+    "wait": { "label": "No review described for standard scopes", "minDays": null, "maxDays": null, "basis": "none" },
+    "refs": ["d10", "d11"]
+  },
+  "prerequisites": [
+    { "item": "A Discord developer application", "detail": "Created in the Developer Portal. It gives you a client ID and client secret.", "refs": ["d1"] },
+    { "item": "A server-side place for the client secret and tokens", "detail": "Keep the secret out of source code and exchange codes on your server.", "refs": ["d1", "d5"] }
+  ],
+  "steps": [
+    { "title": "Create an application in the Developer Portal", "detail": "This produces your client ID and client secret.", "who": "you", "link": "https://docs.discord.com/developers/topics/oauth2", "refs": ["d1"] },
+    { "title": "Register your redirect URIs", "detail": "Discord sends users back with a code plus state and iss values. Check state to guard against forged requests.", "who": "both", "link": "https://docs.discord.com/developers/topics/oauth2", "refs": ["d2"] },
+    { "title": "Choose scopes and avoid partner-only ones", "detail": "Common scopes include identify, email, guilds and connections. Several others are limited to approved partners and fail or misbehave without approval.", "who": "both", "link": "https://docs.discord.com/developers/topics/oauth2", "refs": ["d3", "d4"] },
+    { "title": "Implement the authorization code grant", "detail": "Use it for production instead of the implicit grant, which gives no refresh token. Token and revocation calls must be form-encoded, not JSON.", "who": "both", "link": "https://docs.discord.com/developers/topics/oauth2", "refs": ["d5", "d7"] },
+    { "title": "Store refresh tokens and refresh before expiry", "detail": "Access tokens in the examples last 7 days, and the code grant returns a refresh token.", "who": "both", "link": "https://docs.discord.com/developers/topics/oauth2", "refs": ["d6"] },
+    { "title": "If you add a bot, authorize it to a server", "detail": "Bots with elevated permissions need the owner's account to use two-factor authentication on servers that enforce it.", "who": "you", "link": "https://docs.discord.com/developers/topics/oauth2", "refs": ["d9"] }
+  ],
+  "limits": [
+    { "title": "Partner-only scopes", "detail": "dm_channels.read, identify.premium, voice, applications.builds.upload and the rpc scopes are limited to approved partners. relationships.read goes through the Social SDK program.", "refs": ["d4"] },
+    { "title": "Team-owned applications", "detail": "Limited to the identify and applications.commands.update scopes.", "refs": ["d8"] },
+    { "title": "Seven-day access tokens", "detail": "Based on the examples on the page. Plan to refresh.", "refs": ["d6"] }
+  ],
+  "blockers": [
+    { "problem": "The scope you need is partner-only", "why": "Requesting it without approval can cause errors or undocumented behavior.", "nextMove": "Design the feature without it, or pursue Discord's partner or Social SDK route.", "refs": ["d4"] },
+    { "problem": "Token requests fail with a JSON body", "why": "Token and revocation endpoints accept only application/x-www-form-urlencoded.", "nextMove": "Send form-encoded bodies.", "refs": ["d7"] },
+    { "problem": "A team-owned app cannot use the scope you want", "why": "Team applications are limited to two scopes.", "nextMove": "Register the app under a personal account, or redesign around the allowed scopes.", "refs": ["d8"] }
+  ],
+  "handoff": {
+    "agentCanDo": [
+      "Pick the minimum scopes for your feature and flag any that are partner-only",
+      "Write the redirect handler, state check and form-encoded token exchange",
+      "Build token storage and the refresh job",
+      "Create the Composio auth config once you have a client ID and secret"
+    ],
+    "youMustDo": [
+      "Sign in to the Developer Portal and create the application",
+      "Copy the client secret into your secret store",
+      "Add the bot to a server and enable two-factor authentication on the owner account if required"
+    ]
+  },
+  "uncertainties": [
+    "The page read covers OAuth2 only. Bot verification and privileged intents are separate Discord programs and were not checked here.",
+    "No timelines apply because the page describes no review for standard scopes. That is an absence in one page, not a promise.",
+    "Not tested hands-on. Discord is a good candidate for a 20 minute hands-on test."
+  ],
+  "claims": [
+    { "id": "d1", "text": "An OAuth2 app is a developer application created in Discord's Developer Portal, which provides a client ID and client secret.", "evidence": "official", "sources": ["https://docs.discord.com/developers/topics/oauth2"], "check": { "status": "not_checked", "note": "Read through a summarizing fetch on 2026-11-01. Not yet re-checked by the verification agent." } },
+    { "id": "d2", "text": "Redirect URIs are registered on the application, and Discord returns a code with state and iss values that apps should check.", "evidence": "official", "sources": ["https://docs.discord.com/developers/topics/oauth2"], "check": { "status": "not_checked", "note": "Read through a summarizing fetch on 2026-11-01. Not yet re-checked by the verification agent." } },
+    { "id": "d3", "text": "Scopes include identify, email, guilds, guilds.join, connections and bot.", "evidence": "official", "sources": ["https://docs.discord.com/developers/topics/oauth2"], "check": { "status": "not_checked", "note": "Read through a summarizing fetch on 2026-11-01. Not yet re-checked by the verification agent." } },
+    { "id": "d4", "text": "Several scopes are limited to approved partners, including dm_channels.read, identify.premium, voice, applications.builds.upload and rpc scopes, and relationships.read requires access through the Social SDK program.", "evidence": "official", "sources": ["https://docs.discord.com/developers/topics/oauth2"], "check": { "status": "not_checked", "note": "Read through a summarizing fetch on 2026-11-01. Not yet re-checked by the verification agent." } },
+    { "id": "d5", "text": "The authorization code grant is the standard production flow; the implicit grant returns no refresh token and is discouraged outside prototypes.", "evidence": "official", "sources": ["https://docs.discord.com/developers/topics/oauth2"], "check": { "status": "not_checked", "note": "Read through a summarizing fetch on 2026-11-01. Not yet re-checked by the verification agent." } },
+    { "id": "d6", "text": "Access tokens in the examples last 604800 seconds (7 days), and the code grant returns a refresh token.", "evidence": "official", "sources": ["https://docs.discord.com/developers/topics/oauth2"], "check": { "status": "not_checked", "note": "Read through a summarizing fetch on 2026-11-01. Not yet re-checked by the verification agent." } },
+    { "id": "d7", "text": "Token and revocation endpoints accept only application/x-www-form-urlencoded requests, not JSON.", "evidence": "official", "sources": ["https://docs.discord.com/developers/topics/oauth2"], "check": { "status": "not_checked", "note": "Read through a summarizing fetch on 2026-11-01. Not yet re-checked by the verification agent." } },
+    { "id": "d8", "text": "Team applications are limited to the identify and applications.commands.update scopes.", "evidence": "official", "sources": ["https://docs.discord.com/developers/topics/oauth2"], "check": { "status": "not_checked", "note": "Read through a summarizing fetch on 2026-11-01. Not yet re-checked by the verification agent." } },
+    { "id": "d9", "text": "Bots with elevated permissions require the owner's account to use two-factor authentication when added to servers that enforce it.", "evidence": "official", "sources": ["https://docs.discord.com/developers/topics/oauth2"], "check": { "status": "not_checked", "note": "Read through a summarizing fetch on 2026-11-01. Not yet re-checked by the verification agent." } },
+    { "id": "d10", "text": "Setup takes roughly 30 to 90 minutes of developer time.", "evidence": "inferred", "sources": [], "check": { "status": "not_checked", "note": "No page states this. It is an estimate." } },
+    { "id": "d11", "text": "The OAuth2 page describes no review or approval step for standard scopes.", "evidence": "inferred", "sources": [], "check": { "status": "not_checked", "note": "An absence in one page. It does not prove no review exists elsewhere." } }
+  ],
+  "sources": [
+    { "url": "https://docs.discord.com/developers/topics/oauth2", "title": "OAuth2 (Discord Developer Docs)", "kind": "official", "status": "read", "note": "Grant types, scopes, token lifetimes, restrictions." }
+  ],
+  "composio": { "managedAuth": "unknown", "source": "none", "note": "Not checked. Composio publishes this per toolkit (composio_managed_auth_schemes). Set COMPOSIO_API_KEY to look it up." },
+  "handsOn": { "tested": false, "note": "Not tested hands-on. A 20 minute test in the Developer Portal would confirm the no-review reading." },
+  "corrections": []
+}

@@ -1,0 +1,85 @@
+{
+  "slug": "linkedin",
+  "origin": "seed",
+  "model": null,
+  "generatedAt": "2026-11-01T06:00:00.000Z",
+  "researchedOn": "2026-11-01",
+  "app": { "name": "LinkedIn", "website": "https://learn.microsoft.com/en-us/linkedin/", "category": "Social and professional network" },
+  "summary": "Signing users in with LinkedIn and posting on a member's behalf are self-serve. Almost everything else, including advertising, community management, sales and talent features, requires LinkedIn to approve you, and the pages read publish no review time.",
+  "verdict": {
+    "difficulty": "gated",
+    "headline": "Sign in and share are self-serve. Anything beyond them depends on LinkedIn approving you, with no published timeline and no guarantee even if you meet the requirements.",
+    "effort": { "label": "A day for self-serve products. Approval programs add open-ended back and forth", "minHours": 4, "maxHours": 8 },
+    "wait": { "label": "No timeline published", "minDays": null, "maxDays": null, "basis": "none" },
+    "refs": ["l7", "l13"]
+  },
+  "prerequisites": [
+    { "item": "A LinkedIn developer app", "detail": "Products are added on the app's Products tab. The pages read do not describe how the app is created or what it must be linked to.", "refs": ["l1", "l14"] },
+    { "item": "A clear answer on which product you need", "detail": "Self-serve permissions or an approval-only program. This decides everything about timing.", "refs": ["l1", "l2", "l3"] }
+  ],
+  "steps": [
+    { "title": "Create a LinkedIn developer app", "detail": "This is the starting point. The pages read do not cover app creation, so follow the Developer Portal prompts and see the uncertainties below.", "who": "you", "link": "https://learn.microsoft.com/en-us/linkedin/shared/authentication/getting-access", "refs": ["l14"] },
+    { "title": "Add the self-serve products", "detail": "profile and email (Sign in with LinkedIn using OpenID Connect) and w_member_social (Share on LinkedIn) are open to all developers.", "who": "you", "link": "https://learn.microsoft.com/en-us/linkedin/shared/authentication/getting-access", "refs": ["l1"] },
+    { "title": "Decide whether you need an approval-only product", "detail": "Advertising, Sales Navigator, Talent and Learning products need approval or a partner application. Compliance permissions are closed.", "who": "both", "link": "https://learn.microsoft.com/en-us/linkedin/shared/authentication/getting-access", "refs": ["l2", "l3", "l4"] },
+    { "title": "Apply and plan around the tiers", "detail": "Advertising and Community Management start at a Development tier. Move to Standard with a support ticket (advertising) or app review (community management).", "who": "you", "link": "https://learn.microsoft.com/en-us/linkedin/marketing/increasing-access?view=li-lms-2026-10", "refs": ["l5", "l6", "l7"] },
+    { "title": "Register your redirect URL", "detail": "It must be an absolute HTTPS URL registered on the app's Auth tab, without a fragment.", "who": "both", "link": "https://learn.microsoft.com/en-us/linkedin/shared/authentication/authorization-code-flow", "refs": ["l8"] },
+    { "title": "Build the 3-legged OAuth flow", "detail": "Send an unpredictable state, request the fewest scopes, and exchange the code within 30 minutes. Members consent to all scopes together.", "who": "both", "link": "https://learn.microsoft.com/en-us/linkedin/shared/authentication/authorization-code-flow", "refs": ["l9", "l11"] },
+    { "title": "Plan for 60-day tokens", "detail": "Access tokens last 60 days. Programmatic refresh is limited to certain partners, so most apps rerun the authorization redirect.", "who": "both", "link": "https://learn.microsoft.com/en-us/linkedin/shared/authentication/authorization-code-flow", "refs": ["l9", "l10"] }
+  ],
+  "limits": [
+    { "title": "Community Management development tier", "detail": "500 calls per app and 100 per member per 24 hours, and testing must be finished within 12 months of access.", "refs": ["l6"] },
+    { "title": "Changing scopes forces re-authentication", "detail": "Members consent to all requested scopes together.", "refs": ["l11"] },
+    { "title": "Marketing API version sunset", "detail": "Version 202511 is scheduled to sunset on 2026-11-16, so move to a current versioned API.", "refs": ["l12"] }
+  ],
+  "blockers": [
+    { "problem": "LinkedIn does not approve your application", "why": "LinkedIn selects partners at its discretion and may decline even when you meet the minimum requirements.", "nextMove": "Build what the self-serve products allow first, and apply with a precise description of your use case.", "refs": ["l7"] },
+    { "problem": "You cannot tell when approval will come", "why": "The pages read state no review timeline for the Standard tier, and restricted APIs have no fixed timeline.", "nextMove": "Keep a self-serve version shippable and ask Developer Support for status.", "refs": ["l7", "l13"] },
+    { "problem": "Users have to sign in again every 60 days", "why": "Access tokens last 60 days and programmatic refresh is for a limited set of partners.", "nextMove": "Rerun the authorization redirect before expiry. It skips consent when the member is still logged in.", "refs": ["l9", "l10"] },
+    { "problem": "Development tier limits stop your testing", "why": "Community Management development access is capped on calls and requires you to finish within 12 months.", "nextMove": "Apply for Standard early and design tests around the caps.", "refs": ["l6"] }
+  ],
+  "handoff": {
+    "agentCanDo": [
+      "Compare your feature list against the self-serve and approval-only products",
+      "Draft the use-case description for the approval application",
+      "Write the authorization redirect, state check, code exchange and 60-day re-auth flow",
+      "Create the Composio auth config once you have a client ID and secret"
+    ],
+    "youMustDo": [
+      "Create the developer app and add products while signed in to LinkedIn",
+      "Submit support tickets and partner applications and answer LinkedIn's questions",
+      "Provide any company information LinkedIn asks for"
+    ]
+  },
+  "uncertainties": [
+    "The pages read do not describe how to create a LinkedIn developer app, or whether it must be associated with a company page or verified by a page admin.",
+    "No review timeline is stated for the Standard tier or for most partner programs.",
+    "The authorization page's scope example uses older scope names. Confirm current names in the Developer Portal.",
+    "Not tested hands-on."
+  ],
+  "claims": [
+    { "id": "l1", "text": "LinkedIn uses OAuth 2.0, and profile, email and w_member_social are open to all developers, added on the app's Products tab.", "evidence": "official", "sources": ["https://learn.microsoft.com/en-us/linkedin/shared/authentication/getting-access"], "check": { "status": "not_checked", "note": "Read through a summarizing fetch on 2026-11-01. Not yet re-checked by the verification agent." } },
+    { "id": "l2", "text": "Advertising API access needs approval, requested by adding the Advertising API product, and Audiences permissions need approved Advertising API partner status.", "evidence": "official", "sources": ["https://learn.microsoft.com/en-us/linkedin/shared/authentication/getting-access"], "check": { "status": "not_checked", "note": "Read through a summarizing fetch on 2026-11-01. Not yet re-checked by the verification agent." } },
+    { "id": "l3", "text": "Sales Navigator permissions need approval as a SNAP partner, Talent products need a partner application, and Learning has a separate access request.", "evidence": "official", "sources": ["https://learn.microsoft.com/en-us/linkedin/shared/authentication/getting-access"], "check": { "status": "not_checked", "note": "Read through a summarizing fetch on 2026-11-01. Not yet re-checked by the verification agent." } },
+    { "id": "l4", "text": "The compliance permissions r_compliance and w_compliance are closed.", "evidence": "official", "sources": ["https://learn.microsoft.com/en-us/linkedin/shared/authentication/getting-access"], "check": { "status": "not_checked", "note": "Read through a summarizing fetch on 2026-11-01. Not yet re-checked by the verification agent." } },
+    { "id": "l5", "text": "Advertising API and Community Management API start at a Development tier; Standard is requested separately, through a support ticket for advertising and app review for community management.", "evidence": "official", "sources": ["https://learn.microsoft.com/en-us/linkedin/marketing/increasing-access?view=li-lms-2026-10"], "check": { "status": "not_checked", "note": "Read through a summarizing fetch on 2026-11-01. Not yet re-checked by the verification agent." } },
+    { "id": "l6", "text": "Community Management development tier allows 500 calls per app and 100 per member per 24 hours, and integration and testing must be completed within 12 months.", "evidence": "official", "sources": ["https://learn.microsoft.com/en-us/linkedin/marketing/increasing-access?view=li-lms-2026-10"], "check": { "status": "not_checked", "note": "Read through a summarizing fetch on 2026-11-01. Not yet re-checked by the verification agent." } },
+    { "id": "l7", "text": "LinkedIn may decline to upgrade a partner even if minimum requirements are met, and restricted APIs are judged case by case with no fixed timeline.", "evidence": "official", "sources": ["https://learn.microsoft.com/en-us/linkedin/marketing/increasing-access?view=li-lms-2026-10"], "check": { "status": "not_checked", "note": "Read through a summarizing fetch on 2026-11-01. Not yet re-checked by the verification agent." } },
+    { "id": "l8", "text": "The redirect URL must be an absolute HTTPS URL registered on the app's Auth tab, cannot contain a #, and query parameters are ignored.", "evidence": "official", "sources": ["https://learn.microsoft.com/en-us/linkedin/shared/authentication/authorization-code-flow"], "check": { "status": "not_checked", "note": "Read through a summarizing fetch on 2026-11-01. Not yet re-checked by the verification agent." } },
+    { "id": "l9", "text": "Authorization codes expire after 30 minutes and access tokens last 60 days.", "evidence": "official", "sources": ["https://learn.microsoft.com/en-us/linkedin/shared/authentication/authorization-code-flow"], "check": { "status": "not_checked", "note": "Read through a summarizing fetch on 2026-11-01. Not yet re-checked by the verification agent." } },
+    { "id": "l10", "text": "Programmatic refresh tokens are limited to certain partners; otherwise rerun the authorization redirect, which skips consent if the member is still logged in and the token has not expired.", "evidence": "official", "sources": ["https://learn.microsoft.com/en-us/linkedin/shared/authentication/authorization-code-flow"], "check": { "status": "not_checked", "note": "Read through a summarizing fetch on 2026-11-01. Not yet re-checked by the verification agent." } },
+    { "id": "l11", "text": "Members consent to all requested scopes together, and changing scopes requires users to re-authenticate.", "evidence": "official", "sources": ["https://learn.microsoft.com/en-us/linkedin/shared/authentication/authorization-code-flow"], "check": { "status": "not_checked", "note": "Read through a summarizing fetch on 2026-11-01. Not yet re-checked by the verification agent." } },
+    { "id": "l12", "text": "Marketing API version 202511 is scheduled to sunset on November 16, 2026.", "evidence": "official", "sources": ["https://learn.microsoft.com/en-us/linkedin/marketing/increasing-access?view=li-lms-2026-10"], "check": { "status": "not_checked", "note": "Read through a summarizing fetch on 2026-11-01. Not yet re-checked by the verification agent." } },
+    { "id": "l13", "text": "The pages read give no review timeline for the Standard tier.", "evidence": "inferred", "sources": [], "check": { "status": "not_checked", "note": "An absence in the pages read. It does not prove LinkedIn publishes none elsewhere." } },
+    { "id": "l14", "text": "Creating a developer app in the LinkedIn Developer Portal is the starting point.", "evidence": "unverified", "sources": [], "check": { "status": "not_checked", "note": "None of the pages read describe app creation." } }
+  ],
+  "sources": [
+    { "url": "https://learn.microsoft.com/en-us/linkedin/shared/authentication/getting-access", "title": "Getting Access to LinkedIn APIs", "kind": "official", "status": "read", "note": "Self-serve versus approval-only permissions." },
+    { "url": "https://learn.microsoft.com/en-us/linkedin/shared/authentication/authorization-code-flow", "title": "Authorization Code Flow (3-legged OAuth)", "kind": "official", "status": "read", "note": "Redirect rules, token lifetimes, refresh." },
+    { "url": "https://learn.microsoft.com/en-us/linkedin/marketing/increasing-access?view=li-lms-2026-10", "title": "Increasing Access (Marketing APIs)", "kind": "official", "status": "read", "note": "Development and Standard tiers." }
+  ],
+  "composio": { "managedAuth": "unknown", "source": "none", "note": "Not checked. Composio publishes this per toolkit (composio_managed_auth_schemes). Set COMPOSIO_API_KEY to look it up." },
+  "handsOn": { "tested": false, "note": "Not tested hands-on. Nothing here was attempted in the LinkedIn Developer Portal." },
+  "corrections": [
+    { "was": "The Getting Access page looks like it explains how to get a LinkedIn app approved.", "now": "It lists which permissions are open and which need approval, but not how to create the app, or how long approval takes.", "why": "The page states no app creation steps, page-admin requirement or timelines." }
+  ]
+}

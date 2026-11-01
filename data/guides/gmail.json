@@ -1,0 +1,100 @@
+{
+  "slug": "gmail",
+  "origin": "seed",
+  "model": null,
+  "generatedAt": "2026-11-01T06:00:00.000Z",
+  "researchedOn": "2026-11-01",
+  "app": { "name": "Gmail", "website": "https://developers.google.com/gmail/api", "category": "Email (Google APIs)" },
+  "summary": "Google lets you build and test an OAuth app on your own quickly. To let strangers connect their Gmail, Google reviews your app first, and how long that takes depends on how sensitive your requested permissions (scopes) are. The heaviest path adds an outside security assessment.",
+  "verdict": {
+    "difficulty": "hard",
+    "headline": "Easy to start in testing mode, but real users need Google's verification: about two weeks for sensitive scopes, about six weeks plus a third-party security assessment for restricted ones.",
+    "effort": { "label": "1 to 3 days of preparation", "minHours": 8, "maxHours": 24 },
+    "wait": { "label": "About 10 business days (sensitive) to about 6 weeks (restricted)", "minDays": 14, "maxDays": 42, "basis": "official" },
+    "refs": ["g4", "g5", "g16"]
+  },
+  "prerequisites": [
+    { "item": "A public home page and privacy policy on the same domain", "detail": "The privacy policy must be linked from your OAuth consent screen, and the domain verified in Google Search Console.", "refs": ["g8"] },
+    { "item": "A written reason for every sensitive scope", "detail": "Explain what each scope does for users and why a narrower scope would not work.", "refs": ["g9", "g19"] },
+    { "item": "An unlisted YouTube demo video, in English", "detail": "It shows the consent flow, your app name, the OAuth client ID in the address bar, and how each sensitive or restricted scope is used.", "refs": ["g10"] },
+    { "item": "Current project owner and editor contacts", "detail": "Google's review team emails these accounts, and unanswered emails can pause the review.", "refs": ["g13"] }
+  ],
+  "steps": [
+    { "title": "Create a Google Cloud project and an OAuth client", "detail": "This is the starting point for any Google API. The pages read for this guide cover verification, not project setup, so follow Google's console prompts.", "who": "you", "link": "https://support.google.com/cloud/answer/13463073?hl=en", "refs": ["g17"] },
+    { "title": "Request only the scopes you need", "detail": "Add scopes on the Data Access page. The console labels each one non-sensitive, sensitive or restricted. Asking for more than a feature needs violates Google's minimum-scope policy.", "who": "both", "link": "https://support.google.com/cloud/answer/13463073?hl=en", "refs": ["g1", "g19"] },
+    { "title": "Build and test in Testing status", "detail": "Projects kept in Testing are exempt from verification. If you launch unverified with sensitive or restricted scopes, you are capped at 100 new users for the life of the project.", "who": "both", "link": null, "refs": ["g12", "g3"] },
+    { "title": "Publish the public pages and verify your domain", "detail": "Home page, privacy policy on the same domain, and domain ownership in Search Console.", "who": "both", "link": "https://developers.google.com/identity/protocols/oauth2/production-readiness/sensitive-scope-verification", "refs": ["g8"] },
+    { "title": "Write scope justifications and record the demo video", "detail": "The agent drafts the text and the video script. You record and upload the unlisted video.", "who": "both", "link": "https://developers.google.com/identity/protocols/oauth2/production-readiness/restricted-scope-verification", "refs": ["g9", "g10"] },
+    { "title": "Verify and publish your branding", "detail": "Branding checks are usually quick. A passing result expires after 7 days if you do not publish it, and you need published branding before the data access review.", "who": "you", "link": "https://developers.google.com/identity/protocols/oauth2/production-readiness/brand-verification", "refs": ["g11", "g15"] },
+    { "title": "Request the data access review", "detail": "Submit in the Verification Center and answer any follow-up from Google's Trust and Safety team.", "who": "you", "link": "https://developers.google.com/identity/protocols/oauth2/production-readiness/sensitive-scope-verification", "refs": ["g4", "g5", "g13"] },
+    { "title": "If you have restricted scopes, complete the security assessment", "detail": "A Google-approved independent assessor checks your app against the CASA framework when restricted data passes through or is stored on a server you run. Plan to repeat it every year.", "who": "you", "link": "https://developers.google.com/identity/protocols/oauth2/production-readiness/restricted-scope-verification", "refs": ["g6", "g7", "g14"] }
+  ],
+  "limits": [
+    { "title": "100-user cap while unverified", "detail": "Counts new users across the whole project lifetime and cannot be reset. Check usage under APIs and Services, OAuth Consent Screen.", "refs": ["g3", "g18"] },
+    { "title": "Branding results expire in 7 days", "detail": "Publish promptly after Verify Branding passes.", "refs": ["g11"] },
+    { "title": "Yearly re-verification for restricted scopes", "detail": "Reverification and reassessment at least every 12 months, and adding a new restricted scope may trigger it.", "refs": ["g7"] },
+    { "title": "Data handling rules", "detail": "Restricted-scope apps follow the Google API Services User Data Policy, including Limited Use, and must delete user data on request.", "refs": ["g14"] }
+  ],
+  "blockers": [
+    { "problem": "Review paused by a follow-up email", "why": "Google's Trust and Safety team may ask questions, and the review waits for your answer.", "nextMove": "Keep owner and editor contacts current, and have the agent draft replies for you to approve.", "refs": ["g13"] },
+    { "problem": "You hit the 100-user cap before verification finishes", "why": "Unverified apps with sensitive or restricted scopes stop letting new users sign in at the cap.", "nextMove": "Start verification before you invite users, and watch cap usage on the consent screen page.", "refs": ["g3", "g18"] },
+    { "problem": "A restricted scope triggers a security assessment", "why": "It needs an outside assessor and repeats yearly. The pages read do not state its cost.", "nextMove": "Check whether a narrower scope covers your feature before you commit to the restricted one.", "refs": ["g6", "g7"] },
+    { "problem": "Scope justification rejected", "why": "Google reads a broad scope used for a narrow job as a policy violation.", "nextMove": "Ask for the narrowest scope that does the job, and explain in the justification why nothing narrower works.", "refs": ["g9", "g19"] }
+  ],
+  "handoff": {
+    "agentCanDo": [
+      "Map your features to the narrowest Gmail scopes and flag likely classifications to confirm in the console",
+      "Draft the privacy policy, home page copy and per-scope justifications",
+      "Write the demo video script and a pre-submission checklist",
+      "Track review status and draft replies to Google's follow-up emails",
+      "Create the Composio auth config once you have a client ID and secret"
+    ],
+    "youMustDo": [
+      "Sign in to Google Cloud and Search Console, and prove domain ownership with DNS",
+      "Record and upload the unlisted demo video",
+      "Submit branding and the data access review from the project owner account",
+      "Answer Trust and Safety emails",
+      "Commission the CASA security assessment if restricted scopes apply"
+    ]
+  },
+  "uncertainties": [
+    "The pages read do not say which Gmail scopes are sensitive or restricted. The Cloud Console labels each scope when you add it, so confirm there.",
+    "The cost of the CASA security assessment is not stated on the pages read.",
+    "The sensitive-scope page says up to 10 days; the FAQ says about 10 business days. This guide uses the longer reading: about two weeks of calendar time.",
+    "Google calls the timelines estimates, not guarantees, and says they vary with how quickly you respond.",
+    "Setting up the Cloud project and OAuth client is not covered by the pages read.",
+    "Not tested hands-on."
+  ],
+  "claims": [
+    { "id": "g1", "text": "Apps that request sensitive or restricted scopes must complete verification before they can be granted access, and the Cloud Console labels each scope's category.", "evidence": "official", "sources": ["https://support.google.com/cloud/answer/13463073?hl=en"], "check": { "status": "not_checked", "note": "Read through a summarizing fetch on 2026-11-01. Not yet re-checked by the verification agent." } },
+    { "id": "g2", "text": "Apps using only non-sensitive scopes need no verification; brand verification is an optional lighter step for showing an app name and logo.", "evidence": "official", "sources": ["https://support.google.com/cloud/answer/13463073?hl=en"], "check": { "status": "not_checked", "note": "Read through a summarizing fetch on 2026-11-01. Not yet re-checked by the verification agent." } },
+    { "id": "g3", "text": "Unverified apps that use sensitive or restricted scopes are capped at 100 new users over the project's lifetime, and the cap cannot be reset.", "evidence": "official", "sources": ["https://support.google.com/cloud/answer/13463817?hl=en"], "check": { "status": "not_checked", "note": "Read through a summarizing fetch on 2026-11-01. Not yet re-checked by the verification agent." } },
+    { "id": "g4", "text": "Google estimates about 10 business days for sensitive-scope verification and about 6 weeks for restricted-scope verification, and says these are not guaranteed.", "evidence": "official", "sources": ["https://support.google.com/cloud/answer/13463817?hl=en"], "check": { "status": "not_checked", "note": "Read through a summarizing fetch on 2026-11-01. Not yet re-checked by the verification agent." } },
+    { "id": "g5", "text": "The sensitive scope page says verification can take up to 10 days.", "evidence": "official", "sources": ["https://developers.google.com/identity/protocols/oauth2/production-readiness/sensitive-scope-verification"], "check": { "status": "not_checked", "note": "Read through a summarizing fetch on 2026-11-01. Not yet re-checked by the verification agent." } },
+    { "id": "g6", "text": "Restricted scopes need a security assessment by a Google-approved independent assessor using the CASA framework when restricted data goes through or is stored on a server.", "evidence": "official", "sources": ["https://developers.google.com/identity/protocols/oauth2/production-readiness/restricted-scope-verification"], "check": { "status": "not_checked", "note": "Read through a summarizing fetch on 2026-11-01. Not yet re-checked by the verification agent." } },
+    { "id": "g7", "text": "Apps with restricted scopes must be reverified and reassessed at least every 12 months, and a new restricted scope may require reassessment.", "evidence": "official", "sources": ["https://developers.google.com/identity/protocols/oauth2/production-readiness/restricted-scope-verification"], "check": { "status": "not_checked", "note": "Read through a summarizing fetch on 2026-11-01. Not yet re-checked by the verification agent." } },
+    { "id": "g8", "text": "You need a public home page and a privacy policy on the same domain linked from the consent screen, plus authorized domains verified in Google Search Console.", "evidence": "official", "sources": ["https://developers.google.com/identity/protocols/oauth2/production-readiness/sensitive-scope-verification", "https://developers.google.com/identity/protocols/oauth2/production-readiness/restricted-scope-verification"], "check": { "status": "not_checked", "note": "Read through a summarizing fetch on 2026-11-01. Not yet re-checked by the verification agent." } },
+    { "id": "g9", "text": "Submit a justification for each sensitive scope, including why a narrower scope will not work.", "evidence": "official", "sources": ["https://developers.google.com/identity/protocols/oauth2/production-readiness/sensitive-scope-verification"], "check": { "status": "not_checked", "note": "Read through a summarizing fetch on 2026-11-01. Not yet re-checked by the verification agent." } },
+    { "id": "g10", "text": "The demo is an unlisted YouTube video in English showing the consent flow, the app name, the OAuth client ID in the address bar, and how each sensitive or restricted scope is used.", "evidence": "official", "sources": ["https://developers.google.com/identity/protocols/oauth2/production-readiness/sensitive-scope-verification", "https://developers.google.com/identity/protocols/oauth2/production-readiness/restricted-scope-verification"], "check": { "status": "not_checked", "note": "Read through a summarizing fetch on 2026-11-01. Not yet re-checked by the verification agent." } },
+    { "id": "g11", "text": "A passing branding result is valid for 7 days unless published, and the data access review requires published branding first.", "evidence": "official", "sources": ["https://developers.google.com/identity/protocols/oauth2/production-readiness/sensitive-scope-verification"], "check": { "status": "not_checked", "note": "Read through a summarizing fetch on 2026-11-01. Not yet re-checked by the verification agent." } },
+    { "id": "g12", "text": "Exempt from verification: personal use by a small group you know (with a user cap), projects kept in Testing status, service accounts using only their own data, and internal Workspace use.", "evidence": "official", "sources": ["https://developers.google.com/identity/protocols/oauth2/production-readiness/sensitive-scope-verification"], "check": { "status": "not_checked", "note": "Read through a summarizing fetch on 2026-11-01. Not yet re-checked by the verification agent." } },
+    { "id": "g13", "text": "Google's Trust and Safety team may email follow-up questions that pause the review, so owner and editor contacts must stay current.", "evidence": "official", "sources": ["https://developers.google.com/identity/protocols/oauth2/production-readiness/sensitive-scope-verification"], "check": { "status": "not_checked", "note": "Read through a summarizing fetch on 2026-11-01. Not yet re-checked by the verification agent." } },
+    { "id": "g14", "text": "Restricted-scope apps must follow the Google API Services User Data Policy, including Limited Use, and be able to delete user data on request.", "evidence": "official", "sources": ["https://developers.google.com/identity/protocols/oauth2/production-readiness/restricted-scope-verification"], "check": { "status": "not_checked", "note": "Read through a summarizing fetch on 2026-11-01. Not yet re-checked by the verification agent." } },
+    { "id": "g15", "text": "Brand verification takes about 2 to 3 business days, and automated checks often finish in minutes.", "evidence": "official", "sources": ["https://support.google.com/cloud/answer/13463817?hl=en", "https://developers.google.com/identity/protocols/oauth2/production-readiness/restricted-scope-verification"], "check": { "status": "not_checked", "note": "Read through a summarizing fetch on 2026-11-01. Not yet re-checked by the verification agent." } },
+    { "id": "g16", "text": "Preparing the pages, justifications and demo video takes roughly one to three focused days.", "evidence": "inferred", "sources": [], "check": { "status": "not_checked", "note": "No page states this. It is an estimate." } },
+    { "id": "g17", "text": "A Google Cloud project with an OAuth client and consent screen is the starting point.", "evidence": "unverified", "sources": [], "check": { "status": "not_checked", "note": "None of the pages read cover project setup." } },
+    { "id": "g18", "text": "Cap usage is visible in the Cloud Console under APIs and Services, OAuth Consent Screen.", "evidence": "official", "sources": ["https://support.google.com/cloud/answer/13463817?hl=en"], "check": { "status": "not_checked", "note": "Read through a summarizing fetch on 2026-11-01. Not yet re-checked by the verification agent." } },
+    { "id": "g19", "text": "Requesting a broader scope than the feature needs violates the minimum-scope policy, for example using a broad mail scope only to send email.", "evidence": "official", "sources": ["https://support.google.com/cloud/answer/13463817?hl=en"], "check": { "status": "not_checked", "note": "Read through a summarizing fetch on 2026-11-01. Not yet re-checked by the verification agent." } }
+  ],
+  "sources": [
+    { "url": "https://support.google.com/cloud/answer/13463073?hl=en", "title": "OAuth App Verification Help Center", "kind": "official", "status": "read", "note": "Overview only. States that steps, caps and timelines are on other pages." },
+    { "url": "https://developers.google.com/identity/protocols/oauth2/production-readiness/restricted-scope-verification", "title": "Restricted scope verification", "kind": "official", "status": "read", "note": "Security assessment, documents, demo video, yearly reverification." },
+    { "url": "https://developers.google.com/identity/protocols/oauth2/production-readiness/sensitive-scope-verification", "title": "Sensitive scope verification", "kind": "official", "status": "read", "note": "Steps, exceptions, the 10-day statement." },
+    { "url": "https://support.google.com/cloud/answer/13463817?hl=en", "title": "OAuth verification FAQ", "kind": "official", "status": "read", "note": "Timeline estimates, 100-user cap, rejection reasons." }
+  ],
+  "composio": { "managedAuth": "yes", "source": "docs", "note": "Composio's managed-vs-custom auth docs name Gmail among the toolkits where Composio provides the OAuth app. Bring your own for your name on the consent screen, custom scopes or separate rate limits." },
+  "handsOn": { "tested": false, "note": "Not tested hands-on. Nothing here was attempted in a real Google Cloud console." },
+  "corrections": [
+    { "was": "The Google help-center overview page looks like the whole verification process.", "now": "Steps, the 100-user cap, timelines and the security assessment are on four separate Google pages.", "why": "The overview page says it does not cover testing mode, user caps, preparation or timelines." }
+  ]
+}
