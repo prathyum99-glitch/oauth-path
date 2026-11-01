@@ -50,7 +50,7 @@ Net effect of the pass: two wording corrections that would have overstated what 
 
 ## Checks that did run
 
-- `npm test`: 27 tests, including: an official claim that cites an unread page is demoted; a claim its cited page does not support is demoted and listed as a correction; research survives `pause_turn` and a strict-mode 400; fetches to localhost, private IPs, `http://`, credentials, odd ports and redirects into private space are refused; a seed slug can never be overwritten by a live guide.
+- `npm test`: 34 tests, including: an official claim that cites an unread page is demoted; a claim its cited page does not support is demoted and listed as a correction; research survives `pause_turn` and a strict-mode 400; fetches to localhost, private IPs, `http://`, credentials, odd ports and redirects into private space are refused; a seed slug can never be overwritten by a live guide.
 - `npm run validate`: every seed's references point at real claims, every cited URL is a listed source, and "official" never stands without a source that was read.
 - `next build` passes with no warnings. Home, guide and generate pages were opened at desktop and phone widths with no console errors.
 
@@ -69,3 +69,7 @@ What reading the output turned up, and what changed:
 - **Overclaiming grade text.** The Easy grade said "Usually under a day, no review" on every Easy guide. Calendly's own docs say new apps get scopes only once "requested and approved", and Notion's approval step is unresolved. The text now says the pages read describe no approval step and points to what is unconfirmed.
 - **Not yet shown.** Composio managed-auth status reads "not checked" on both runs because no `COMPOSIO_API_KEY` is set on the deployment.
 - **Not yet done.** Neither guide has been run by hand, so both say "Tested by a person: No".
+
+### Composio lookup, second pass (2026-11-01)
+
+With a `COMPOSIO_API_KEY` set on the deployment, the Calendly run showed "Composio API answered HTTP 401": the key was refused, and the guide said so rather than guessing. Reading the code for that case turned up a second problem: the lookup turned "QuickBooks Online (Intuit Developer)" into one long toolkit name, which Composio would not recognise. The lookup now tries the name without brackets, then the first word, then the full name; trims the key; sends `uak_` user keys in their own header; and names the matched toolkit in its note. Seven new tests cover this.
