@@ -66,6 +66,14 @@ npm run build && npm start
 npx tsx scripts/build-demo.ts out.html   # single-file review copy of the six guides, no server needed
 ```
 
+### Make it live with the agent working
+
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fprathyum99-glitch%2Foauth-path&env=ANTHROPIC_API_KEY&envDescription=Needed%20for%20live%20generation.%20Server-side%20only.&project-name=oauth-path&repository-name=oauth-path)
+
+The button imports this repo into Vercel and asks for `ANTHROPIC_API_KEY`. Without that key the app still serves the six guides, and live generation answers "switched off". The key is a server-side secret: it belongs in the host's environment settings, never in the repo.
+
+GitHub Pages (workflow in `.github/workflows/pages.yml`) can host only the static review copy of the six guides. It cannot run the agent, because the agent needs a server and a key.
+
 ### Deploy to Vercel
 
 1. Import the repo. Framework is detected as Next.js.

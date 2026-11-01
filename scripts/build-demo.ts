@@ -7,9 +7,11 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { seedGuides } from '../src/lib/seeds';
 
-const out = process.argv[2];
+const args = process.argv.slice(2);
+const full = args.includes('--full');
+const out = args.find((a) => !a.startsWith('--'));
 if (!out) {
-  console.error('Usage: tsx scripts/build-demo.ts <output.html>');
+  console.error('Usage: tsx scripts/build-demo.ts <output.html> [--full]   (--full writes a complete page for static hosting)');
   process.exit(2);
 }
 
@@ -43,6 +45,13 @@ ${css}
 ${client}
 </script>
 `;
+// The fragment suits the Claude artifact host. --full wraps it in a complete document for GitHub Pages and similar.
+const doc = full
+  ? (() => {
+      const cut = html.indexOf('</style>') + '</style>'.length;
+      return `<!doctype html>\n<html lang="en">\n<head>\n<meta charset="utf-8">\n<meta name="viewport" content="width=device-width, initial-scale=1">\n${html.slice(0, cut)}\n</head>\n<body>${html.slice(cut)}</body>\n</html>\n`;
+    })()
+  : html;
 fs.mkdirSync(path.dirname(out), { recursive: true });
-fs.writeFileSync(out, html);
-console.log(`wrote ${out} (${Math.round(html.length / 1024)} KB)`);
+fs.writeFileSync(out, doc);
+console.log(`wrote ${out} (${Math.round(doc.length / 1024)} KB)`);
