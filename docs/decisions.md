@@ -25,7 +25,7 @@ The brief asks where an agent can act and where a person must take over. Every s
 
 ## 5. A grade scale built around the developer's real question
 
-Easy (self-serve, no review), Moderate (self-serve to start, review or conditions to go public), Hard (formal review, documents or a security assessment), Gated (the provider decides whether you get access at all, and the timeline is not yours). Colour carries the grade, but so do the filled-segment count and the word, so it reads without colour.
+Easy (self-serve, and the pages read describe no approval step; that is an absence in those pages, not a promise), Moderate (self-serve to start, review or conditions to go public), Hard (formal review, documents or a security assessment), Gated (the provider decides whether you get access at all, and the timeline is not yours). Colour carries the grade, but so do the filled-segment count and the word, so it reads without colour.
 
 ## 6. How the Composio toolkit directory is used
 

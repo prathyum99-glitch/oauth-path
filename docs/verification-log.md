@@ -53,3 +53,19 @@ Net effect of the pass: two wording corrections that would have overstated what 
 - `npm test`: 27 tests, including: an official claim that cites an unread page is demoted; a claim its cited page does not support is demoted and listed as a correction; research survives `pause_turn` and a strict-mode 400; fetches to localhost, private IPs, `http://`, credentials, odd ports and redirects into private space are refused; a seed slug can never be overwritten by a live guide.
 - `npm run validate`: every seed's references point at real claims, every cited URL is a listed source, and "official" never stands without a source that was read.
 - `next build` passes with no warnings. Home, guide and generate pages were opened at desktop and phone widths with no console errors.
+
+## First live runs on the deployed site (2026-11-01)
+
+The agent ran against the real model for the first time on the Vercel deployment. Two apps, one by name and one by website, each saved a shareable guide.
+
+| Run | Input | Outcome |
+|---|---|---|
+| QuickBooks | `QuickBooks` | Moderate. 26 claims: 24 official, 1 inferred, 1 unverified. 24 re-read by the second agent; 23 confirmed, 1 partly confirmed. Three Intuit pages that only appeared as search snippets were listed as "could not be read" and used for nothing. Token lifetimes were left in "could not be confirmed". |
+| Calendly | `calendly.com` | Easy. 27 claims: 24 official, 3 inferred. 24 re-read; 22 confirmed, 2 partly confirmed (the second agent said Calendly's page does not say native apps omit the secret). A partner page returned 404 and was reported as such. It took about two minutes. |
+
+What reading the output turned up, and what changed:
+
+- **Misleading label.** The "Weakest support behind this verdict" line listed every claim the verdict cited under the weakest label. For QuickBooks that put confirmed claims c1, c3, c5 and c6 next to "Unverified", when only c21 was. It now lists only the claims at the weakest level.
+- **Overclaiming grade text.** The Easy grade said "Usually under a day, no review" on every Easy guide. Calendly's own docs say new apps get scopes only once "requested and approved", and Notion's approval step is unresolved. The text now says the pages read describe no approval step and points to what is unconfirmed.
+- **Not yet shown.** Composio managed-auth status reads "not checked" on both runs because no `COMPOSIO_API_KEY` is set on the deployment.
+- **Not yet done.** Neither guide has been run by hand, so both say "Tested by a person: No".

@@ -2,7 +2,7 @@
 (function () {
   var GUIDES = window.__GUIDES__;
   var DIFF = {
-    easy: { label: 'Easy', ticks: 1, blurb: 'Self-serve. Usually under a day, no review.' },
+    easy: { label: 'Easy', ticks: 1, blurb: 'Self-serve. The pages read describe no approval step; check what is still unconfirmed below.' },
     moderate: { label: 'Moderate', ticks: 2, blurb: 'Self-serve to start. Going public adds a review or conditions.' },
     hard: { label: 'Hard', ticks: 3, blurb: 'Formal review, extra documents, or a security assessment. Plan in weeks.' },
     gated: { label: 'Gated', ticks: 4, blurb: 'Access depends on the provider approving you. Timeline is not in your hands.' }

@@ -7,18 +7,25 @@ import { ComposioBlock } from './ComposioBlock';
 
 const WHO_LABEL = { agent: 'Agent', you: 'You', both: 'Agent + you' } as const;
 
-function Refs({ guide, refs }: { guide: Guide; refs: string[] }) {
+/**
+ * The chip names the weakest evidence among the refs. With `weakOnly`, only the claims at that
+ * weakest level are listed, so a verdict built mostly on official pages does not look unverified.
+ */
+function Refs({ guide, refs, weakOnly = false }: { guide: Guide; refs: string[]; weakOnly?: boolean }) {
   const ev = weakestEvidence(guide, refs);
+  const known = refs.flatMap((r) => {
+    const claim = guide.claims.find((c) => c.id === r);
+    return claim ? [claim] : [];
+  });
+  const shown = weakOnly ? known.filter((c) => c.evidence === ev) : known;
   return (
     <span className="refs">
       <EvidenceChip evidence={ev} />
-      {refs
-        .filter((r) => guide.claims.some((c) => c.id === r))
-        .map((r) => (
-          <a key={r} className="refs__id" href={`#claim-${r}`} aria-label={`See evidence ${r}`}>
-            {r}
-          </a>
-        ))}
+      {shown.map((c) => (
+        <a key={c.id} className="refs__id" href={`#claim-${c.id}`} title={`${EVIDENCE_COPY[c.evidence].label} claim`} aria-label={`See evidence ${c.id}`}>
+          {c.id}
+        </a>
+      ))}
     </span>
   );
 }
@@ -72,7 +79,7 @@ export function GuideView({ guide, persistent }: { guide: Guide; persistent: boo
         </dl>
         <div className="support">
           <p className="refs-label">Weakest support behind this verdict</p>
-          <Refs guide={guide} refs={guide.verdict.refs} />
+          <Refs guide={guide} refs={guide.verdict.refs} weakOnly />
         </div>
         <p className="guide__summary">{guide.summary}</p>
         <p className="muted small">{DIFFICULTY_COPY[guide.verdict.difficulty].blurb}</p>
