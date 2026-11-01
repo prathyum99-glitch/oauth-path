@@ -6,6 +6,8 @@ OAuth Path is a library of plain-language guides for setting up an OAuth app wit
 
 Built as the take-home for Composio's APM Integrations role.
 
+**Live:** https://oauth-path-two.vercel.app (the six guides, plus `/new` to investigate any app). **Source:** this repo.
+
 ## What a guide tells you
 
 - **Grade**: Easy, Moderate, Hard or Gated, and why.
@@ -77,7 +79,7 @@ GitHub Pages (workflow in `.github/workflows/pages.yml`) can host only the stati
 ### Deploy to Vercel
 
 1. Import the repo. Framework is detected as Next.js.
-2. Add `ANTHROPIC_API_KEY`. Add the Upstash Redis integration (it sets the `UPSTASH_REDIS_REST_*` variables) so share links survive deploys. Add `COMPOSIO_API_KEY` if you have one.
+2. Add `ANTHROPIC_API_KEY`. Add the Upstash Redis integration (Storage tab in Vercel; it sets `KV_REST_API_URL` and `KV_REST_API_TOKEN`, and the app also reads `UPSTASH_REDIS_REST_*`) so share links survive. Without it, a guide generated on one server instance is not found by the next request and the page says it does not exist. Redeploy after connecting it. Add `COMPOSIO_API_KEY` if you have one.
 3. The generate route sets `maxDuration = 300`. Confirm your Vercel plan allows a function that long; if it does not, lower it and expect live runs on slow providers to be cut off.
 
 ## How the live agent works
