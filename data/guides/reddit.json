@@ -4,38 +4,171 @@
   "model": null,
   "generatedAt": "2026-11-01T06:00:00.000Z",
   "researchedOn": "2026-11-01",
-  "app": { "name": "Reddit", "website": "https://support.reddithelp.com/hc/en-us/articles/14945211791892-Developer-Platform-Accessing-Reddit-Data", "category": "Social network" },
+  "app": {
+    "name": "Reddit",
+    "website": "https://support.reddithelp.com/hc/en-us/articles/14945211791892-Developer-Platform-Accessing-Reddit-Data",
+    "category": "Social network"
+  },
   "summary": "The OAuth plumbing is ordinary. The real question is whether Reddit will let you use its data for your purpose. Reddit decides eligibility during app review, commercial use needs its permission and often a contract, and the pages read publish no approval timeline.",
   "verdict": {
     "difficulty": "gated",
     "headline": "Registering is the easy part. Reddit decides eligibility in app review, commercial use needs its permission, and no timeline is published.",
-    "effort": { "label": "A day to build, plus open-ended time for approval", "minHours": 6, "maxHours": 12 },
-    "wait": { "label": "No timeline published", "minDays": null, "maxDays": null, "basis": "none" },
-    "refs": ["r2", "r3", "r9"]
+    "effort": {
+      "label": "A day to build, plus open-ended time for approval",
+      "minHours": 6,
+      "maxHours": 12
+    },
+    "wait": {
+      "label": "No timeline published",
+      "minDays": null,
+      "maxDays": null,
+      "basis": "none"
+    },
+    "refs": [
+      "r2",
+      "r3",
+      "r9"
+    ]
   },
   "prerequisites": [
-    { "item": "A clear statement of your use case", "detail": "Whether it counts as commercial or non-commercial is decided from what you tell Reddit in app review.", "refs": ["r2"] },
-    { "item": "A unique, descriptive User-Agent", "detail": "Generic defaults are heavily limited.", "refs": ["r6"] },
-    { "item": "Agreement to Reddit's Developer Terms and Data API Terms", "detail": "They are the authoritative rules. The wiki warns some of its own legacy content may be outdated.", "refs": ["r7"] }
+    {
+      "item": "A clear statement of your use case",
+      "detail": "Whether it counts as commercial or non-commercial is decided from what you tell Reddit in app review.",
+      "refs": [
+        "r2"
+      ]
+    },
+    {
+      "item": "A unique, descriptive User-Agent",
+      "detail": "Format: platform:app ID:version (by /u/username). Generic defaults are heavily limited.",
+      "refs": [
+        "r6"
+      ]
+    },
+    {
+      "item": "Agreement to Reddit's Developer Terms and Data API Terms",
+      "detail": "They are the authoritative rules. The wiki warns some of its own legacy content may be outdated.",
+      "refs": [
+        "r7"
+      ]
+    }
   ],
   "steps": [
-    { "title": "Read the Developer Terms and Data API Terms", "detail": "Use them as the source of truth, not older write-ups.", "who": "you", "link": "https://support.reddithelp.com/hc/en-us/articles/16160319875092-Reddit-Data-API-Wiki", "refs": ["r7"] },
-    { "title": "Decide whether your use is commercial", "detail": "Monetized apps, subscriptions and paid data access count as commercial and need Reddit's prior permission and, for data-powered products, a contract.", "who": "both", "link": "https://support.reddithelp.com/hc/en-us/articles/14945211791892-Developer-Platform-Accessing-Reddit-Data", "refs": ["r2", "r3"] },
-    { "title": "Request access through the right route", "detail": "Non-commercial Data API access has its own sign-up. Commercial use goes through a contact form. Research access means proposing a project in r/reddit4researchers.", "who": "you", "link": "https://support.reddithelp.com/hc/en-us/articles/14945211791892-Developer-Platform-Accessing-Reddit-Data", "refs": ["r1"] },
-    { "title": "Describe your app for review", "detail": "The agent drafts a precise description of what your app does with Reddit data, and you submit it.", "who": "both", "link": "https://support.reddithelp.com/hc/en-us/articles/14945211791892-Developer-Platform-Accessing-Reddit-Data", "refs": ["r2"] },
-    { "title": "Authenticate with OAuth2 and a proper User-Agent", "detail": "Requests from hosted service provider IP ranges need a valid OAuth token or a logged-in session.", "who": "both", "link": "https://support.reddithelp.com/hc/en-us/articles/16160319875092-Reddit-Data-API-Wiki", "refs": ["r6", "r8"] },
-    { "title": "Stay inside the rate limits and content rules", "detail": "Free-tier eligible users get 100 queries per minute per OAuth client ID, averaged over 10 minutes. Do not show Reddit content next to ads, and get consent before training AI models on it.", "who": "both", "link": "https://support.reddithelp.com/hc/en-us/articles/16160319875092-Reddit-Data-API-Wiki", "refs": ["r4", "r5"] }
+    {
+      "title": "Read the Developer Terms and Data API Terms",
+      "detail": "Use them as the source of truth, not older write-ups.",
+      "who": "you",
+      "link": "https://support.reddithelp.com/hc/en-us/articles/16160319875092-Reddit-Data-API-Wiki",
+      "refs": [
+        "r7"
+      ]
+    },
+    {
+      "title": "Decide whether your use is commercial",
+      "detail": "Monetized apps, subscriptions and paid data access count as commercial and need Reddit's prior permission and, for data-powered products, a contract.",
+      "who": "both",
+      "link": "https://support.reddithelp.com/hc/en-us/articles/14945211791892-Developer-Platform-Accessing-Reddit-Data",
+      "refs": [
+        "r2",
+        "r3"
+      ]
+    },
+    {
+      "title": "Request access through the right route",
+      "detail": "Non-commercial Data API access has its own sign-up. Commercial use goes through a contact form. Research access means proposing a project in r/reddit4researchers.",
+      "who": "you",
+      "link": "https://support.reddithelp.com/hc/en-us/articles/14945211791892-Developer-Platform-Accessing-Reddit-Data",
+      "refs": [
+        "r1"
+      ]
+    },
+    {
+      "title": "Describe your app for review",
+      "detail": "The agent drafts a precise description of what your app does with Reddit data, and you submit it.",
+      "who": "both",
+      "link": "https://support.reddithelp.com/hc/en-us/articles/14945211791892-Developer-Platform-Accessing-Reddit-Data",
+      "refs": [
+        "r2"
+      ]
+    },
+    {
+      "title": "Authenticate with OAuth2 and a proper User-Agent",
+      "detail": "Requests from hosted service provider IP ranges need a valid OAuth token or a logged-in session.",
+      "who": "both",
+      "link": "https://support.reddithelp.com/hc/en-us/articles/16160319875092-Reddit-Data-API-Wiki",
+      "refs": [
+        "r6",
+        "r8"
+      ]
+    },
+    {
+      "title": "Stay inside the rate limits and content rules",
+      "detail": "The wiki gives 100 queries per minute per OAuth client ID, averaged over 10 minutes. Do not show Reddit content next to ads, and get consent before training AI models on it.",
+      "who": "both",
+      "link": "https://support.reddithelp.com/hc/en-us/articles/16160319875092-Reddit-Data-API-Wiki",
+      "refs": [
+        "r4",
+        "r5"
+      ]
+    }
   ],
   "limits": [
-    { "title": "Rate limits", "detail": "100 queries per minute per OAuth client ID for free-tier eligible users, averaged over 10 minutes. 10 per minute without OAuth.", "refs": ["r5"] },
-    { "title": "Content restrictions", "detail": "No Reddit content alongside ads. AI or language model training needs explicit consent.", "refs": ["r4"] },
-    { "title": "Hosted IP ranges", "detail": "Requests from hosting providers need a valid OAuth token or logged-in session.", "refs": ["r8"] }
+    {
+      "title": "Rate limits",
+      "detail": "100 queries per minute per OAuth client ID, averaged over 10 minutes. 10 per minute without OAuth. The page's figures carry a 2023 effective date, so confirm they still hold.",
+      "refs": [
+        "r5"
+      ]
+    },
+    {
+      "title": "Content restrictions",
+      "detail": "No Reddit content alongside ads. AI or language model training needs explicit consent.",
+      "refs": [
+        "r4"
+      ]
+    },
+    {
+      "title": "Hosted IP ranges",
+      "detail": "Requests from hosting providers need a valid OAuth token or logged-in session.",
+      "refs": [
+        "r8"
+      ]
+    }
   ],
   "blockers": [
-    { "problem": "Your product is commercial", "why": "Commercial use needs Reddit's prior permission and, for data-powered products, a contract.", "nextMove": "Contact Reddit through the commercial form before you build around Reddit data.", "refs": ["r3", "r1"] },
-    { "problem": "Your design shows Reddit content next to ads", "why": "That is not allowed.", "nextMove": "Redesign so Reddit content and ads are never shown together.", "refs": ["r4"] },
-    { "problem": "You plan to train a model on Reddit content", "why": "It needs explicit consent, and commercial use of such models is prohibited without approval.", "nextMove": "Ask Reddit first. Treat it as a blocker until you have a yes.", "refs": ["r4"] },
-    { "problem": "You do not know when you will be approved", "why": "The pages read state no timeline.", "nextMove": "Do not put a launch date behind Reddit approval.", "refs": ["r9"] }
+    {
+      "problem": "Your product is commercial",
+      "why": "Commercial use needs Reddit's prior permission and, for data-powered products, a contract.",
+      "nextMove": "Contact Reddit through the commercial form before you build around Reddit data.",
+      "refs": [
+        "r3",
+        "r1"
+      ]
+    },
+    {
+      "problem": "Your design shows Reddit content next to ads",
+      "why": "That is not allowed.",
+      "nextMove": "Redesign so Reddit content and ads are never shown together.",
+      "refs": [
+        "r4"
+      ]
+    },
+    {
+      "problem": "You plan to train a model on Reddit content",
+      "why": "It needs explicit consent, and commercial use of such models is prohibited without approval.",
+      "nextMove": "Ask Reddit first. Treat it as a blocker until you have a yes.",
+      "refs": [
+        "r4"
+      ]
+    },
+    {
+      "problem": "You do not know when you will be approved",
+      "why": "The pages read state no timeline.",
+      "nextMove": "Do not put a launch date behind Reddit approval.",
+      "refs": [
+        "r9"
+      ]
+    }
   ],
   "handoff": {
     "agentCanDo": [
@@ -53,29 +186,156 @@
   "uncertainties": [
     "Reddit's Responsible Builder Policy page could not be fetched (client error), so its approval details are unverified.",
     "The Data API wiki does not explain how to register an app, and says some of its content may be outdated.",
+    "The wiki's rate limits carry a July 1, 2023 effective date and the page warns some content may be outdated. A second read could not confirm that the 100 per minute figure applies only to free-tier eligible users, so this guide no longer says so.",
     "The pages read state no approval timelines.",
     "How creating an OAuth client ID relates to the sign-up and app review is not explained on the pages read.",
     "Not tested hands-on."
   ],
   "claims": [
-    { "id": "r1", "text": "Non-commercial Data API access has its own sign-up, commercial use requires contacting Reddit through a separate form, and research access means proposing a project in r/reddit4researchers.", "evidence": "official", "sources": ["https://support.reddithelp.com/hc/en-us/articles/14945211791892-Developer-Platform-Accessing-Reddit-Data"], "check": { "status": "not_checked", "note": "Read through a summarizing fetch on 2026-11-01. Not yet re-checked by the verification agent." } },
-    { "id": "r2", "text": "Whether use counts as commercial or non-commercial is determined from the information you provide during App Review.", "evidence": "official", "sources": ["https://support.reddithelp.com/hc/en-us/articles/14945211791892-Developer-Platform-Accessing-Reddit-Data"], "check": { "status": "not_checked", "note": "Read through a summarizing fetch on 2026-11-01. Not yet re-checked by the verification agent." } },
-    { "id": "r3", "text": "Commercial use, including monetized apps, subscriptions and paid data access, needs Reddit's prior permission and, for data-powered products, a contract.", "evidence": "official", "sources": ["https://support.reddithelp.com/hc/en-us/articles/14945211791892-Developer-Platform-Accessing-Reddit-Data"], "check": { "status": "not_checked", "note": "Read through a summarizing fetch on 2026-11-01. Not yet re-checked by the verification agent." } },
-    { "id": "r4", "text": "Showing Reddit content alongside ads is not allowed, and training AI or language models on Reddit content needs explicit consent.", "evidence": "official", "sources": ["https://support.reddithelp.com/hc/en-us/articles/14945211791892-Developer-Platform-Accessing-Reddit-Data"], "check": { "status": "not_checked", "note": "Read through a summarizing fetch on 2026-11-01. Not yet re-checked by the verification agent." } },
-    { "id": "r5", "text": "Users eligible for free access get 100 queries per minute per OAuth client ID, averaged over a 10-minute window, and 10 per minute without OAuth.", "evidence": "official", "sources": ["https://support.reddithelp.com/hc/en-us/articles/16160319875092-Reddit-Data-API-Wiki"], "check": { "status": "not_checked", "note": "Read through a summarizing fetch on 2026-11-01. Not yet re-checked by the verification agent." } },
-    { "id": "r6", "text": "Requests should carry a unique, descriptive User-Agent, and generic defaults are heavily limited.", "evidence": "official", "sources": ["https://support.reddithelp.com/hc/en-us/articles/16160319875092-Reddit-Data-API-Wiki"], "check": { "status": "not_checked", "note": "Read through a summarizing fetch on 2026-11-01. Not yet re-checked by the verification agent." } },
-    { "id": "r7", "text": "Data API use is subject to the Developer Terms and the Data API Terms, and the wiki warns that some of its legacy information may be outdated.", "evidence": "official", "sources": ["https://support.reddithelp.com/hc/en-us/articles/16160319875092-Reddit-Data-API-Wiki"], "check": { "status": "not_checked", "note": "Read through a summarizing fetch on 2026-11-01. Not yet re-checked by the verification agent." } },
-    { "id": "r8", "text": "Requests from hosted service provider IP ranges require a valid OAuth token or a logged-in session.", "evidence": "official", "sources": ["https://support.reddithelp.com/hc/en-us/articles/14945211791892-Developer-Platform-Accessing-Reddit-Data"], "check": { "status": "not_checked", "note": "Read through a summarizing fetch on 2026-11-01. Not yet re-checked by the verification agent." } },
-    { "id": "r9", "text": "The pages read state no approval timelines.", "evidence": "inferred", "sources": [], "check": { "status": "not_checked", "note": "An absence in the pages read. The Responsible Builder Policy page could not be fetched." } }
+    {
+      "id": "r1",
+      "text": "Non-commercial Data API access has its own sign-up, commercial use requires contacting Reddit through a separate form, and research access means proposing a project in r/reddit4researchers.",
+      "evidence": "official",
+      "sources": [
+        "https://support.reddithelp.com/hc/en-us/articles/14945211791892-Developer-Platform-Accessing-Reddit-Data"
+      ],
+      "check": {
+        "status": "not_checked",
+        "note": "Read through a summarizing fetch on 2026-11-01. Not yet re-checked by the verification agent."
+      }
+    },
+    {
+      "id": "r2",
+      "text": "Whether use counts as commercial or non-commercial is determined from the information you provide during App Review.",
+      "evidence": "official",
+      "sources": [
+        "https://support.reddithelp.com/hc/en-us/articles/14945211791892-Developer-Platform-Accessing-Reddit-Data"
+      ],
+      "check": {
+        "status": "not_checked",
+        "note": "Read through a summarizing fetch on 2026-11-01. Not yet re-checked by the verification agent."
+      }
+    },
+    {
+      "id": "r3",
+      "text": "Commercial use, including monetized apps, subscriptions and paid data access, needs Reddit's prior permission and, for data-powered products, a contract.",
+      "evidence": "official",
+      "sources": [
+        "https://support.reddithelp.com/hc/en-us/articles/14945211791892-Developer-Platform-Accessing-Reddit-Data"
+      ],
+      "check": {
+        "status": "not_checked",
+        "note": "Read through a summarizing fetch on 2026-11-01. Not yet re-checked by the verification agent."
+      }
+    },
+    {
+      "id": "r4",
+      "text": "Showing Reddit content alongside ads is not allowed, and training AI or language models on Reddit content needs explicit consent.",
+      "evidence": "official",
+      "sources": [
+        "https://support.reddithelp.com/hc/en-us/articles/14945211791892-Developer-Platform-Accessing-Reddit-Data"
+      ],
+      "check": {
+        "status": "not_checked",
+        "note": "Read through a summarizing fetch on 2026-11-01. Not yet re-checked by the verification agent."
+      }
+    },
+    {
+      "id": "r5",
+      "text": "The wiki gives 100 queries per minute per OAuth client ID, averaged over a 10-minute window, and 10 per minute without OAuth. The limits carry a July 1, 2023 effective date.",
+      "evidence": "official",
+      "sources": [
+        "https://support.reddithelp.com/hc/en-us/articles/16160319875092-Reddit-Data-API-Wiki"
+      ],
+      "check": {
+        "status": "not_checked",
+        "note": "Read through a summarizing fetch on 2026-11-01. Not yet re-checked by the verification agent."
+      }
+    },
+    {
+      "id": "r6",
+      "text": "Requests must use a unique, descriptive User-Agent where possible, in the form <platform>:<app ID>:<version> (by /u/<username>). Generic defaults are heavily restricted.",
+      "evidence": "official",
+      "sources": [
+        "https://support.reddithelp.com/hc/en-us/articles/16160319875092-Reddit-Data-API-Wiki"
+      ],
+      "check": {
+        "status": "not_checked",
+        "note": "Read through a summarizing fetch on 2026-11-01. Not yet re-checked by the verification agent."
+      }
+    },
+    {
+      "id": "r7",
+      "text": "Data API use is subject to the Developer Terms and the Data API Terms, and the wiki warns that some of its legacy information may be outdated.",
+      "evidence": "official",
+      "sources": [
+        "https://support.reddithelp.com/hc/en-us/articles/16160319875092-Reddit-Data-API-Wiki"
+      ],
+      "check": {
+        "status": "not_checked",
+        "note": "Read through a summarizing fetch on 2026-11-01. Not yet re-checked by the verification agent."
+      }
+    },
+    {
+      "id": "r8",
+      "text": "Requests from hosted service provider IP ranges require a valid OAuth token or a logged-in session.",
+      "evidence": "official",
+      "sources": [
+        "https://support.reddithelp.com/hc/en-us/articles/14945211791892-Developer-Platform-Accessing-Reddit-Data"
+      ],
+      "check": {
+        "status": "not_checked",
+        "note": "Read through a summarizing fetch on 2026-11-01. Not yet re-checked by the verification agent."
+      }
+    },
+    {
+      "id": "r9",
+      "text": "The pages read state no approval timelines.",
+      "evidence": "inferred",
+      "sources": [],
+      "check": {
+        "status": "not_checked",
+        "note": "An absence in the pages read. The Responsible Builder Policy page could not be fetched."
+      }
+    }
   ],
   "sources": [
-    { "url": "https://support.reddithelp.com/hc/en-us/articles/14945211791892-Developer-Platform-Accessing-Reddit-Data", "title": "Developer Platform and Accessing Reddit Data", "kind": "official", "status": "read", "note": "Access routes, commercial rules, allowed uses." },
-    { "url": "https://support.reddithelp.com/hc/en-us/articles/16160319875092-Reddit-Data-API-Wiki", "title": "Reddit Data API Wiki", "kind": "official", "status": "read", "note": "Rate limits, User-Agent, terms. Does not explain app registration." },
-    { "url": "https://support.reddithelp.com/hc/en-us/articles/42728983564564-Responsible-Builder-Policy", "title": "Responsible Builder Policy", "kind": "official", "status": "unreachable", "note": "Could not be fetched (client error). Its approval details are unverified." }
+    {
+      "url": "https://support.reddithelp.com/hc/en-us/articles/14945211791892-Developer-Platform-Accessing-Reddit-Data",
+      "title": "Developer Platform and Accessing Reddit Data",
+      "kind": "official",
+      "status": "read",
+      "note": "Access routes, commercial rules, allowed uses."
+    },
+    {
+      "url": "https://support.reddithelp.com/hc/en-us/articles/16160319875092-Reddit-Data-API-Wiki",
+      "title": "Reddit Data API Wiki",
+      "kind": "official",
+      "status": "read",
+      "note": "Rate limits, User-Agent, terms. Does not explain app registration."
+    },
+    {
+      "url": "https://support.reddithelp.com/hc/en-us/articles/42728983564564-Responsible-Builder-Policy",
+      "title": "Responsible Builder Policy",
+      "kind": "official",
+      "status": "unreachable",
+      "note": "Could not be fetched (client error). Its approval details are unverified."
+    }
   ],
-  "composio": { "managedAuth": "unknown", "source": "none", "note": "Not checked. Composio publishes this per toolkit (composio_managed_auth_schemes). Set COMPOSIO_API_KEY to look it up." },
-  "handsOn": { "tested": false, "note": "Not tested hands-on. Nothing here was attempted in a Reddit account." },
+  "composio": {
+    "managedAuth": "unknown",
+    "source": "none",
+    "note": "Not checked. Composio publishes this per toolkit (composio_managed_auth_schemes). Set COMPOSIO_API_KEY to look it up."
+  },
+  "handsOn": {
+    "tested": false,
+    "note": "Not tested hands-on. Nothing here was attempted in a Reddit account."
+  },
   "corrections": [
-    { "was": "The Data API Wiki looks like the registration guide.", "now": "It covers limits and terms, but not how to register an app. Access and review are described on the Developer Platform page.", "why": "The wiki says it does not explain registration and that parts of it may be outdated." }
+    {
+      "was": "The Data API Wiki looks like the registration guide.",
+      "now": "It covers limits and terms, but not how to register an app. Access and review are described on the Developer Platform page.",
+      "why": "The wiki says it does not explain registration and that parts of it may be outdated."
+    }
   ]
 }

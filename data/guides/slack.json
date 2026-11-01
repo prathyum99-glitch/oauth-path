@@ -4,40 +4,194 @@
   "model": null,
   "generatedAt": "2026-11-01T06:00:00.000Z",
   "researchedOn": "2026-11-01",
-  "app": { "name": "Slack", "website": "https://docs.slack.dev", "category": "Messaging" },
+  "app": {
+    "name": "Slack",
+    "website": "https://docs.slack.dev",
+    "category": "Messaging"
+  },
   "summary": "A Slack app that works in your own workspace is quick to build. To let other companies install it you add an OAuth flow, and unlisted distribution needs no review. Listing in the Slack Marketplace adds a content review, and Slack now wants 10 active installs before you can submit.",
   "verdict": {
     "difficulty": "moderate",
     "headline": "Minutes to install in your own workspace and no review for unlisted distribution, but the Marketplace needs 10 active workspace installs first and Slack publishes no review time.",
-    "effort": { "label": "Half a day to a working install, 1 to 2 more days for Marketplace materials", "minHours": 4, "maxHours": 16 },
-    "wait": { "label": "No review time published", "minDays": null, "maxDays": null, "basis": "none" },
-    "refs": ["s2", "s11", "s12", "s13"]
+    "effort": {
+      "label": "Half a day to a working install, 1 to 2 more days for Marketplace materials",
+      "minHours": 4,
+      "maxHours": 16
+    },
+    "wait": {
+      "label": "No review time published",
+      "minDays": null,
+      "maxDays": null,
+      "basis": "none"
+    },
+    "refs": [
+      "s2",
+      "s11",
+      "s12",
+      "s13"
+    ]
   },
   "prerequisites": [
-    { "item": "An OAuth 2.0 install flow", "detail": "Required to install in any workspace other than your own. Use a state parameter and verify requests with signing secrets.", "refs": ["s2", "s9"] },
-    { "item": "SSL on your redirect and request URLs, plus an onboarding flow", "detail": "Direct hands-on support does not scale across many workspaces.", "refs": ["s3"] },
-    { "item": "A landing page, support page and privacy policy", "detail": "Needed for Marketplace review. The privacy policy covers collection, use, retention and deletion requests.", "refs": ["s6"] }
+    {
+      "item": "An OAuth 2.0 install flow",
+      "detail": "Required to install in any workspace other than your own. Use a state parameter and verify requests with signing secrets.",
+      "refs": [
+        "s2",
+        "s9"
+      ]
+    },
+    {
+      "item": "SSL on your redirect and request URLs, plus an onboarding flow",
+      "detail": "Direct hands-on support does not scale across many workspaces.",
+      "refs": [
+        "s3"
+      ]
+    },
+    {
+      "item": "A landing page, support page and privacy policy",
+      "detail": "Needed for Marketplace review. The privacy policy covers collection, use, retention and deletion requests.",
+      "refs": [
+        "s6"
+      ]
+    }
   ],
   "steps": [
-    { "title": "Create the app and choose scopes", "detail": "Pick the fewest scopes that deliver your feature. Slack reviews scopes under least privilege and generally rejects legacy or restricted ones.", "who": "both", "link": "https://docs.slack.dev/app-management/distribution/", "refs": ["s7"] },
-    { "title": "Install it in your own workspace and test", "detail": "An app that stays in one workspace is installed from the app dashboard and gets one access token.", "who": "you", "link": "https://docs.slack.dev/app-management/distribution/", "refs": ["s1"] },
-    { "title": "Build the OAuth flow for many workspaces", "detail": "Issue a token per workspace and user. Send a state parameter, verify incoming requests with signing secrets, store tokens securely, and use TLS 1.2 or higher.", "who": "both", "link": "https://docs.slack.dev/slack-marketplace/distributing-your-app-in-the-slack-marketplace", "refs": ["s2", "s9"] },
-    { "title": "Meet the distribution checklist", "detail": "SSL everywhere, an onboarding flow, and a least-privilege scope list that workspace admins may review.", "who": "both", "link": "https://docs.slack.dev/app-management/distribution/", "refs": ["s3"] },
-    { "title": "Activate public distribution for pilots", "detail": "You get an Add to Slack button and an install link. Good for early customers.", "who": "you", "link": "https://docs.slack.dev/app-management/distribution/", "refs": ["s2", "s5"] },
-    { "title": "Reach 10 active workspace installs", "detail": "Slack requires at least 10 installs on active workspaces before you can submit, and you must keep them through review.", "who": "you", "link": "https://docs.slack.dev/changelog/2026/09/01/slack-marketplace-install-requirement", "refs": ["s11"] },
-    { "title": "Prepare the Marketplace listing", "detail": "Short description of 10 words or fewer, images in an 8:5 ratio, support and landing pages, a privacy policy, at least one app collaborator. A 30 to 90 second video is recommended, not required.", "who": "both", "link": "https://docs.slack.dev/slack-marketplace/distributing-your-app-in-the-slack-marketplace", "refs": ["s6", "s8", "s10"] },
-    { "title": "Submit and respond to review", "detail": "Slack installs and tests your app. Resubmit after substantial changes. Slack may run a security review at any time after submission.", "who": "you", "link": "https://docs.slack.dev/slack-marketplace/distributing-your-app-in-the-slack-marketplace", "refs": ["s6", "s10", "s12"] }
+    {
+      "title": "Create the app and choose scopes",
+      "detail": "Pick the fewest scopes that deliver your feature. Slack reviews scopes under least privilege and generally rejects legacy or restricted ones.",
+      "who": "both",
+      "link": "https://docs.slack.dev/app-management/distribution/",
+      "refs": [
+        "s7"
+      ]
+    },
+    {
+      "title": "Install it in your own workspace and test",
+      "detail": "An app that stays in one workspace is installed from the app dashboard and gets one access token.",
+      "who": "you",
+      "link": "https://docs.slack.dev/app-management/distribution/",
+      "refs": [
+        "s1"
+      ]
+    },
+    {
+      "title": "Build the OAuth flow for many workspaces",
+      "detail": "Issue a token per workspace and user. Send a state parameter, verify incoming requests with signing secrets, store tokens securely, and use TLS 1.2 or higher.",
+      "who": "both",
+      "link": "https://docs.slack.dev/slack-marketplace/distributing-your-app-in-the-slack-marketplace",
+      "refs": [
+        "s2",
+        "s9"
+      ]
+    },
+    {
+      "title": "Meet the distribution checklist",
+      "detail": "SSL everywhere, an onboarding flow, and a least-privilege scope list that workspace admins may review.",
+      "who": "both",
+      "link": "https://docs.slack.dev/app-management/distribution/",
+      "refs": [
+        "s3"
+      ]
+    },
+    {
+      "title": "Activate public distribution for pilots",
+      "detail": "You get an Add to Slack button and an install link. Good for early customers.",
+      "who": "you",
+      "link": "https://docs.slack.dev/app-management/distribution/",
+      "refs": [
+        "s2",
+        "s5"
+      ]
+    },
+    {
+      "title": "Reach 10 active workspace installs",
+      "detail": "Slack requires at least 10 installs on active workspaces before you can submit, and you must keep them through review.",
+      "who": "you",
+      "link": "https://docs.slack.dev/changelog/2026/09/01/slack-marketplace-install-requirement",
+      "refs": [
+        "s11"
+      ]
+    },
+    {
+      "title": "Prepare the Marketplace listing",
+      "detail": "Short description of 10 words or fewer, images in an 8:5 ratio, support and landing pages, a privacy policy, at least one app collaborator. A 30 to 90 second video is recommended, not required.",
+      "who": "both",
+      "link": "https://docs.slack.dev/slack-marketplace/distributing-your-app-in-the-slack-marketplace",
+      "refs": [
+        "s6",
+        "s8",
+        "s10"
+      ]
+    },
+    {
+      "title": "Submit and respond to review",
+      "detail": "Slack installs and tests your app. Resubmit after substantial changes. Slack may run a security review at any time after submission.",
+      "who": "you",
+      "link": "https://docs.slack.dev/slack-marketplace/distributing-your-app-in-the-slack-marketplace",
+      "refs": [
+        "s6",
+        "s10",
+        "s12"
+      ]
+    }
   ],
   "limits": [
-    { "title": "10 active installs before you can submit", "detail": "Applies from July 2026 and must hold through review. The page read does not say whether test or internal workspaces count.", "refs": ["s11"] },
-    { "title": "Some workspaces will not let you in", "detail": "Some block installs or allow only Marketplace apps, and admin approval may be required for unlisted apps.", "refs": ["s4"] },
-    { "title": "Broad scopes get a closer look", "detail": "Apps asking for broad data access or admin scopes receive enhanced review.", "refs": ["s14"] }
+    {
+      "title": "10 active installs before you can submit",
+      "detail": "Applies from July 2026 and must hold through review. The page read does not say whether test or internal workspaces count.",
+      "refs": [
+        "s11"
+      ]
+    },
+    {
+      "title": "Some workspaces will not let you in",
+      "detail": "Some block installs or allow only Marketplace apps, and admin approval may be required for unlisted apps.",
+      "refs": [
+        "s4"
+      ]
+    },
+    {
+      "title": "Broad scopes get a closer look",
+      "detail": "Apps asking for broad data access or admin scopes receive enhanced review.",
+      "refs": [
+        "s14"
+      ]
+    }
   ],
   "blockers": [
-    { "problem": "You cannot submit: fewer than 10 active installs", "why": "The install minimum is a hard gate for Marketplace submission.", "nextMove": "Run unlisted pilots with the install link until you reach 10 active workspaces.", "refs": ["s5", "s11"] },
-    { "problem": "A customer's workspace blocks your app", "why": "Some workspaces allow only Marketplace apps or require admin approval.", "nextMove": "Give the customer's admin a short scope explanation, or plan the Marketplace listing for that segment.", "refs": ["s4"] },
-    { "problem": "A scope is rejected in review", "why": "Each scope needs a justification tied to functionality Slack can test.", "nextMove": "Drop the scope, or show exactly where the feature uses it.", "refs": ["s7"] },
-    { "problem": "You cannot plan around the review", "why": "The page read gives no review turnaround, only a 2 business day reply time for support requests.", "nextMove": "Plan launch dates with slack time and keep running unlisted pilots while you wait.", "refs": ["s12"] }
+    {
+      "problem": "You cannot submit: fewer than 10 active installs",
+      "why": "The install minimum is a hard gate for Marketplace submission.",
+      "nextMove": "Run unlisted pilots with the install link until you reach 10 active workspaces.",
+      "refs": [
+        "s5",
+        "s11"
+      ]
+    },
+    {
+      "problem": "A customer's workspace blocks your app",
+      "why": "Some workspaces allow only Marketplace apps or require admin approval.",
+      "nextMove": "Give the customer's admin a short scope explanation, or plan the Marketplace listing for that segment.",
+      "refs": [
+        "s4"
+      ]
+    },
+    {
+      "problem": "A scope is rejected in review",
+      "why": "Each scope needs a justification tied to functionality Slack can test.",
+      "nextMove": "Drop the scope, or show exactly where the feature uses it.",
+      "refs": [
+        "s7"
+      ]
+    },
+    {
+      "problem": "You cannot plan around the review",
+      "why": "The page read gives no review turnaround, only a 2 business day reply time for support requests.",
+      "nextMove": "Plan launch dates with slack time and keep running unlisted pilots while you wait.",
+      "refs": [
+        "s12"
+      ]
+    }
   ],
   "handoff": {
     "agentCanDo": [
@@ -57,33 +211,215 @@
   "uncertainties": [
     "Slack publishes no review turnaround on the pages read. Only the 2 business day support reply time is stated.",
     "The distribution guide page read does not mention the 10-install minimum; it appears in a September 2026 changelog, so other docs pages may lag behind it.",
+    "The changelog post is dated 2026-09-01, but says the rule applies as of July 2026 with no exact day. It does not define an 'active workspace' or name the earlier threshold.",
     "Whether test, internal or your own workspaces count toward the 10 installs is not stated.",
     "Not tested hands-on."
   ],
   "claims": [
-    { "id": "s1", "text": "An app kept in one workspace is installed from the app dashboard, gets a single access token, and cannot be installed elsewhere.", "evidence": "official", "sources": ["https://docs.slack.dev/app-management/distribution/"], "check": { "status": "not_checked", "note": "Read through a summarizing fetch on 2026-11-01. Not yet re-checked by the verification agent." } },
-    { "id": "s2", "text": "To install in other workspaces you build an OAuth 2.0 flow that issues a token per workspace and user, then activate public distribution from the app's checklist.", "evidence": "official", "sources": ["https://docs.slack.dev/app-management/distribution/"], "check": { "status": "not_checked", "note": "Read through a summarizing fetch on 2026-11-01. Not yet re-checked by the verification agent." } },
-    { "id": "s3", "text": "Before enabling distribution you need SSL on OAuth and request URLs, an onboarding flow, and a minimal scope list that workspace admins may review.", "evidence": "official", "sources": ["https://docs.slack.dev/app-management/distribution/"], "check": { "status": "not_checked", "note": "Read through a summarizing fetch on 2026-11-01. Not yet re-checked by the verification agent." } },
-    { "id": "s4", "text": "Some workspaces block installs or allow only Marketplace apps, and admin approval may be required.", "evidence": "official", "sources": ["https://docs.slack.dev/app-management/distribution/"], "check": { "status": "not_checked", "note": "Read through a summarizing fetch on 2026-11-01. Not yet re-checked by the verification agent." } },
-    { "id": "s5", "text": "Unlisted distributed apps suit pilots with early customers, and Slack says commercial apps should be submitted to the Marketplace.", "evidence": "official", "sources": ["https://docs.slack.dev/app-management/distribution/"], "check": { "status": "not_checked", "note": "Read through a summarizing fetch on 2026-11-01. Not yet re-checked by the verification agent." } },
-    { "id": "s6", "text": "Marketplace review checks the guidelines, installs and tests the app, and expects a landing page, a support page and a privacy policy.", "evidence": "official", "sources": ["https://docs.slack.dev/slack-marketplace/distributing-your-app-in-the-slack-marketplace"], "check": { "status": "not_checked", "note": "Read through a summarizing fetch on 2026-11-01. Not yet re-checked by the verification agent." } },
-    { "id": "s7", "text": "Scopes are reviewed under least privilege and need a justification tied to testable functionality; legacy or restricted scopes are generally rejected.", "evidence": "official", "sources": ["https://docs.slack.dev/slack-marketplace/distributing-your-app-in-the-slack-marketplace"], "check": { "status": "not_checked", "note": "Read through a summarizing fetch on 2026-11-01. Not yet re-checked by the verification agent." } },
-    { "id": "s8", "text": "Listing images in an 8:5 ratio and a short description of 10 words or fewer are required; a 30 to 90 second video is recommended but not required.", "evidence": "official", "sources": ["https://docs.slack.dev/slack-marketplace/distributing-your-app-in-the-slack-marketplace"], "check": { "status": "not_checked", "note": "Read through a summarizing fetch on 2026-11-01. Not yet re-checked by the verification agent." } },
-    { "id": "s9", "text": "The OAuth flow must use a state parameter, requests are verified with signing secrets, tokens are stored securely, and TLS 1.2 or higher is required.", "evidence": "official", "sources": ["https://docs.slack.dev/slack-marketplace/distributing-your-app-in-the-slack-marketplace"], "check": { "status": "not_checked", "note": "Read through a summarizing fetch on 2026-11-01. Not yet re-checked by the verification agent." } },
-    { "id": "s10", "text": "Apps need at least one app collaborator and must be resubmitted after substantial changes, and Slack may run a security review at any time after submission.", "evidence": "official", "sources": ["https://docs.slack.dev/slack-marketplace/distributing-your-app-in-the-slack-marketplace"], "check": { "status": "not_checked", "note": "Read through a summarizing fetch on 2026-11-01. Not yet re-checked by the verification agent." } },
-    { "id": "s11", "text": "Starting July 2026, an app needs at least 10 installations on active workspaces to be submitted to the Marketplace and must keep them through review.", "evidence": "official", "sources": ["https://docs.slack.dev/changelog/2026/09/01/slack-marketplace-install-requirement"], "check": { "status": "not_checked", "note": "Read through a summarizing fetch on 2026-11-01. Not yet re-checked by the verification agent." } },
-    { "id": "s12", "text": "Slack expects support requests to get a response within 2 business days; the page read gives no review turnaround time.", "evidence": "official", "sources": ["https://docs.slack.dev/slack-marketplace/distributing-your-app-in-the-slack-marketplace"], "check": { "status": "not_checked", "note": "Read through a summarizing fetch on 2026-11-01. Not yet re-checked by the verification agent." } },
-    { "id": "s13", "text": "A working install takes about half a day, and Marketplace materials one to two more days.", "evidence": "inferred", "sources": [], "check": { "status": "not_checked", "note": "No page states this. It is an estimate." } },
-    { "id": "s14", "text": "Apps requesting broad data access or admin scopes receive enhanced review.", "evidence": "official", "sources": ["https://docs.slack.dev/slack-marketplace/distributing-your-app-in-the-slack-marketplace"], "check": { "status": "not_checked", "note": "Read through a summarizing fetch on 2026-11-01. Not yet re-checked by the verification agent." } }
+    {
+      "id": "s1",
+      "text": "An app kept in one workspace is installed from the app dashboard, gets a single access token, and cannot be installed elsewhere.",
+      "evidence": "official",
+      "sources": [
+        "https://docs.slack.dev/app-management/distribution/"
+      ],
+      "check": {
+        "status": "not_checked",
+        "note": "Read through a summarizing fetch on 2026-11-01. Not yet re-checked by the verification agent."
+      }
+    },
+    {
+      "id": "s2",
+      "text": "To install in other workspaces you build an OAuth 2.0 flow that issues a token per workspace and user, then activate public distribution from the app's checklist.",
+      "evidence": "official",
+      "sources": [
+        "https://docs.slack.dev/app-management/distribution/"
+      ],
+      "check": {
+        "status": "not_checked",
+        "note": "Read through a summarizing fetch on 2026-11-01. Not yet re-checked by the verification agent."
+      }
+    },
+    {
+      "id": "s3",
+      "text": "Before enabling distribution you need SSL on OAuth and request URLs, an onboarding flow, and a minimal scope list that workspace admins may review.",
+      "evidence": "official",
+      "sources": [
+        "https://docs.slack.dev/app-management/distribution/"
+      ],
+      "check": {
+        "status": "not_checked",
+        "note": "Read through a summarizing fetch on 2026-11-01. Not yet re-checked by the verification agent."
+      }
+    },
+    {
+      "id": "s4",
+      "text": "Some workspaces block installs or allow only Marketplace apps, and admin approval may be required.",
+      "evidence": "official",
+      "sources": [
+        "https://docs.slack.dev/app-management/distribution/"
+      ],
+      "check": {
+        "status": "not_checked",
+        "note": "Read through a summarizing fetch on 2026-11-01. Not yet re-checked by the verification agent."
+      }
+    },
+    {
+      "id": "s5",
+      "text": "Unlisted distributed apps suit pilots with early customers, and Slack says commercial apps should be submitted to the Marketplace.",
+      "evidence": "official",
+      "sources": [
+        "https://docs.slack.dev/app-management/distribution/"
+      ],
+      "check": {
+        "status": "not_checked",
+        "note": "Read through a summarizing fetch on 2026-11-01. Not yet re-checked by the verification agent."
+      }
+    },
+    {
+      "id": "s6",
+      "text": "Marketplace review checks the guidelines, installs and tests the app, and expects a landing page, a support page and a privacy policy.",
+      "evidence": "official",
+      "sources": [
+        "https://docs.slack.dev/slack-marketplace/distributing-your-app-in-the-slack-marketplace"
+      ],
+      "check": {
+        "status": "not_checked",
+        "note": "Read through a summarizing fetch on 2026-11-01. Not yet re-checked by the verification agent."
+      }
+    },
+    {
+      "id": "s7",
+      "text": "Scopes are reviewed under least privilege and need a justification tied to testable functionality; legacy or restricted scopes are generally rejected.",
+      "evidence": "official",
+      "sources": [
+        "https://docs.slack.dev/slack-marketplace/distributing-your-app-in-the-slack-marketplace"
+      ],
+      "check": {
+        "status": "not_checked",
+        "note": "Read through a summarizing fetch on 2026-11-01. Not yet re-checked by the verification agent."
+      }
+    },
+    {
+      "id": "s8",
+      "text": "Listing images in an 8:5 ratio and a short description of 10 words or fewer are required; a 30 to 90 second video is recommended but not required.",
+      "evidence": "official",
+      "sources": [
+        "https://docs.slack.dev/slack-marketplace/distributing-your-app-in-the-slack-marketplace"
+      ],
+      "check": {
+        "status": "not_checked",
+        "note": "Read through a summarizing fetch on 2026-11-01. Not yet re-checked by the verification agent."
+      }
+    },
+    {
+      "id": "s9",
+      "text": "The OAuth flow must use a state parameter, requests are verified with signing secrets, tokens are stored securely, and TLS 1.2 or higher is required.",
+      "evidence": "official",
+      "sources": [
+        "https://docs.slack.dev/slack-marketplace/distributing-your-app-in-the-slack-marketplace"
+      ],
+      "check": {
+        "status": "not_checked",
+        "note": "Read through a summarizing fetch on 2026-11-01. Not yet re-checked by the verification agent."
+      }
+    },
+    {
+      "id": "s10",
+      "text": "Apps need at least one app collaborator and must be resubmitted after substantial changes, and Slack may run a security review at any time after submission.",
+      "evidence": "official",
+      "sources": [
+        "https://docs.slack.dev/slack-marketplace/distributing-your-app-in-the-slack-marketplace"
+      ],
+      "check": {
+        "status": "not_checked",
+        "note": "Read through a summarizing fetch on 2026-11-01. Not yet re-checked by the verification agent."
+      }
+    },
+    {
+      "id": "s11",
+      "text": "As of July 2026, an app needs at least 10 installations on active workspaces to be submitted to the Marketplace (up from a temporary lower threshold the page does not name) and must keep them for the whole review. The page does not define an active workspace.",
+      "evidence": "official",
+      "sources": [
+        "https://docs.slack.dev/changelog/2026/09/01/slack-marketplace-install-requirement"
+      ],
+      "check": {
+        "status": "not_checked",
+        "note": "Read through a summarizing fetch on 2026-11-01. Not yet re-checked by the verification agent."
+      }
+    },
+    {
+      "id": "s12",
+      "text": "Slack expects support requests to get a response within 2 business days; the page read gives no review turnaround time.",
+      "evidence": "official",
+      "sources": [
+        "https://docs.slack.dev/slack-marketplace/distributing-your-app-in-the-slack-marketplace"
+      ],
+      "check": {
+        "status": "not_checked",
+        "note": "Read through a summarizing fetch on 2026-11-01. Not yet re-checked by the verification agent."
+      }
+    },
+    {
+      "id": "s13",
+      "text": "A working install takes about half a day, and Marketplace materials one to two more days.",
+      "evidence": "inferred",
+      "sources": [],
+      "check": {
+        "status": "not_checked",
+        "note": "No page states this. It is an estimate."
+      }
+    },
+    {
+      "id": "s14",
+      "text": "Apps requesting broad data access or admin scopes receive enhanced review.",
+      "evidence": "official",
+      "sources": [
+        "https://docs.slack.dev/slack-marketplace/distributing-your-app-in-the-slack-marketplace"
+      ],
+      "check": {
+        "status": "not_checked",
+        "note": "Read through a summarizing fetch on 2026-11-01. Not yet re-checked by the verification agent."
+      }
+    }
   ],
   "sources": [
-    { "url": "https://docs.slack.dev/app-management/distribution/", "title": "App lifecycle and distribution", "kind": "official", "status": "read", "note": "Internal, unlisted distributed and Marketplace apps." },
-    { "url": "https://docs.slack.dev/slack-marketplace/distributing-your-app-in-the-slack-marketplace", "title": "Distributing your app in the Slack Marketplace", "kind": "official", "status": "read", "note": "Review requirements and listing assets." },
-    { "url": "https://docs.slack.dev/changelog/2026/09/01/slack-marketplace-install-requirement", "title": "Slack Marketplace install requirement (changelog, 2026-09-01)", "kind": "official", "status": "read", "note": "The 10 active installs minimum." }
+    {
+      "url": "https://docs.slack.dev/app-management/distribution/",
+      "title": "App lifecycle and distribution",
+      "kind": "official",
+      "status": "read",
+      "note": "Internal, unlisted distributed and Marketplace apps."
+    },
+    {
+      "url": "https://docs.slack.dev/slack-marketplace/distributing-your-app-in-the-slack-marketplace",
+      "title": "Distributing your app in the Slack Marketplace",
+      "kind": "official",
+      "status": "read",
+      "note": "Review requirements and listing assets."
+    },
+    {
+      "url": "https://docs.slack.dev/changelog/2026/09/01/slack-marketplace-install-requirement",
+      "title": "Slack Marketplace install requirement (changelog, 2026-09-01)",
+      "kind": "official",
+      "status": "read",
+      "note": "The 10 active installs minimum."
+    }
   ],
-  "composio": { "managedAuth": "yes", "source": "docs", "note": "Composio's managed-vs-custom auth docs name Slack among the toolkits where Composio provides the OAuth app. Bring your own for your name on the consent screen, custom scopes or separate rate limits." },
-  "handsOn": { "tested": false, "note": "Not tested hands-on. Nothing here was attempted in a real Slack workspace." },
+  "composio": {
+    "managedAuth": "yes",
+    "source": "docs",
+    "note": "Composio's managed-vs-custom auth docs name Slack among the toolkits where Composio provides the OAuth app. Bring your own for your name on the consent screen, custom scopes or separate rate limits."
+  },
+  "handsOn": {
+    "tested": false,
+    "note": "Not tested hands-on. Nothing here was attempted in a real Slack workspace."
+  },
   "corrections": [
-    { "was": "The Slack distribution guide reads as the complete path to a Marketplace listing.", "now": "A September 2026 changelog adds a 10 active-install minimum that the guide page read does not mention.", "why": "Found only on the changelog page. Older write-ups and the guide page will not show it." }
+    {
+      "was": "The Slack distribution guide reads as the complete path to a Marketplace listing.",
+      "now": "A September 2026 changelog adds a 10 active-install minimum that the guide page read does not mention.",
+      "why": "Found only on the changelog page. Older write-ups and the guide page will not show it."
+    }
   ]
 }

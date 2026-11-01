@@ -4,38 +4,171 @@
   "model": null,
   "generatedAt": "2026-11-01T06:00:00.000Z",
   "researchedOn": "2026-11-01",
-  "app": { "name": "Notion", "website": "https://developers.notion.com", "category": "Docs and knowledge" },
-  "summary": "In Notion you create a public connection, set a redirect address and choose which workspaces can install it. A Marketplace listing is optional and Notion reviews it in 5 to 10 business days. One line on Notion's authorization page hints at a review step before you get your authorization URL, and the pages read do not settle it.",
+  "app": {
+    "name": "Notion",
+    "website": "https://developers.notion.com",
+    "category": "Docs and knowledge"
+  },
+  "summary": "In Notion you create a public connection, set a redirect address and choose which workspaces can install it. A Marketplace listing is optional and Notion says to expect to hear back in 5 to 10 business days. One line on Notion's authorization page hints at a review step before you get your authorization URL, and the pages read do not settle it.",
   "verdict": {
     "difficulty": "easy",
-    "headline": "A few hours of setup. Marketplace listing is optional with a 5 to 10 business day review. Whether Notion must approve a public connection before others can use it is not stated, so test it.",
-    "effort": { "label": "1 to 3 hours", "minHours": 1, "maxHours": 3 },
-    "wait": { "label": "Unclear for OAuth itself. 5 to 10 business days for the optional listing", "minDays": 7, "maxDays": 14, "basis": "official" },
-    "refs": ["n9", "n12"]
+    "headline": "A few hours of setup. Marketplace listing is optional, and Notion says to expect a reply in 5 to 10 business days. Whether Notion must approve a public connection before others can use it is not stated, so test it.",
+    "effort": {
+      "label": "1 to 3 hours",
+      "minHours": 1,
+      "maxHours": 3
+    },
+    "wait": {
+      "label": "Unclear for OAuth itself. Reply within 5 to 10 business days for the optional listing",
+      "minDays": 7,
+      "maxDays": 14,
+      "basis": "official"
+    },
+    "refs": [
+      "n9",
+      "n12"
+    ]
   },
   "prerequisites": [
-    { "item": "A development workspace", "detail": "You pick it when you create the connection.", "refs": ["n2"] },
-    { "item": "A decision on installation scope", "detail": "Any workspace or selected workspaces. You cannot change it later.", "refs": ["n3"] },
-    { "item": "A server to hold the client secret and tokens", "detail": "Keep them out of source control.", "refs": ["n4", "n6"] }
+    {
+      "item": "A development workspace",
+      "detail": "You pick it when you create the connection.",
+      "refs": [
+        "n2"
+      ]
+    },
+    {
+      "item": "A decision on installation scope",
+      "detail": "Any workspace or selected workspaces. You cannot change it later.",
+      "refs": [
+        "n3"
+      ]
+    },
+    {
+      "item": "A server to hold the client secret and tokens",
+      "detail": "Keep them out of source control.",
+      "refs": [
+        "n4",
+        "n6"
+      ]
+    }
   ],
   "steps": [
-    { "title": "Choose the installation scope", "detail": "Pick Any workspace if you may ever list on the Marketplace. The scope is fixed at creation, so changing your mind means creating a new connection.", "who": "you", "link": "https://developers.notion.com/guides/get-started/public-connections", "refs": ["n3"] },
-    { "title": "Create the public connection", "detail": "You provide a name, development workspace, redirect URI or URIs, installation scope and capabilities.", "who": "you", "link": "https://developers.notion.com/guides/get-started/public-connections", "refs": ["n1", "n2"] },
-    { "title": "Copy your credentials and authorization URL", "detail": "The client ID and secret are on the Configuration tab. Notion's page says the authorization URL appears after the connection is submitted for review.", "who": "you", "link": "https://developers.notion.com/guides/get-started/authorization", "refs": ["n4"] },
-    { "title": "Send users to authorize", "detail": "Include your client ID, redirect URI, response_type=code and owner=user. State is optional but useful against forged requests.", "who": "both", "link": "https://developers.notion.com/guides/get-started/authorization", "refs": ["n5"] },
-    { "title": "Exchange the code for tokens on your server", "detail": "Use HTTP Basic auth with your client ID and secret. The response includes access and refresh tokens, a bot ID and workspace details.", "who": "both", "link": "https://developers.notion.com/guides/get-started/authorization", "refs": ["n6"] },
-    { "title": "Save the new token pair on every refresh", "detail": "Each refresh returns a new access token and a new refresh token, so the old pair is no longer the one to keep.", "who": "both", "link": "https://developers.notion.com/guides/get-started/authorization", "refs": ["n7"] },
-    { "title": "Optionally list on the Marketplace", "detail": "Create a listing in the Marketplace dashboard and submit it. Notion's team reviews every submission and replies by email.", "who": "you", "link": "https://developers.notion.com/docs/publishing-integrations-to-notions-integration-gallery", "refs": ["n9", "n10"] }
+    {
+      "title": "Choose the installation scope",
+      "detail": "Pick Any workspace if you may ever list on the Marketplace. The scope is fixed at creation, so changing your mind means creating a new connection.",
+      "who": "you",
+      "link": "https://developers.notion.com/guides/get-started/public-connections",
+      "refs": [
+        "n3"
+      ]
+    },
+    {
+      "title": "Create the public connection",
+      "detail": "You provide a name, development workspace, redirect URI or URIs, installation scope and capabilities.",
+      "who": "you",
+      "link": "https://developers.notion.com/guides/get-started/public-connections",
+      "refs": [
+        "n1",
+        "n2"
+      ]
+    },
+    {
+      "title": "Copy your credentials and authorization URL",
+      "detail": "The client ID and secret are on the Configuration tab. Notion's page says the authorization URL appears after the connection is submitted for review.",
+      "who": "you",
+      "link": "https://developers.notion.com/guides/get-started/authorization",
+      "refs": [
+        "n4"
+      ]
+    },
+    {
+      "title": "Send users to authorize",
+      "detail": "Include your client ID, redirect URI, response_type=code and owner=user. State is optional but useful against forged requests.",
+      "who": "both",
+      "link": "https://developers.notion.com/guides/get-started/authorization",
+      "refs": [
+        "n5"
+      ]
+    },
+    {
+      "title": "Exchange the code for tokens on your server",
+      "detail": "Use HTTP Basic auth with your client ID and secret. The response includes access and refresh tokens, a bot ID and workspace details.",
+      "who": "both",
+      "link": "https://developers.notion.com/guides/get-started/authorization",
+      "refs": [
+        "n6"
+      ]
+    },
+    {
+      "title": "Save the new token pair on every refresh",
+      "detail": "Each refresh returns a new access token and a new refresh token, so the old pair is no longer the one to keep.",
+      "who": "both",
+      "link": "https://developers.notion.com/guides/get-started/authorization",
+      "refs": [
+        "n7"
+      ]
+    },
+    {
+      "title": "Optionally list on the Marketplace",
+      "detail": "Create a listing in the Marketplace dashboard and submit it. Notion's team reviews every submission and says to expect an email reply within 5 to 10 business days.",
+      "who": "you",
+      "link": "https://developers.notion.com/docs/publishing-integrations-to-notions-integration-gallery",
+      "refs": [
+        "n9",
+        "n10"
+      ]
+    }
   ],
   "limits": [
-    { "title": "Installation scope is permanent", "detail": "Selected-workspace connections cannot be listed on the Marketplace.", "refs": ["n3"] },
-    { "title": "Authorization is per user", "detail": "Each user authorizes separately and gets their own token for their workspace.", "refs": ["n1"] }
+    {
+      "title": "Installation scope is permanent",
+      "detail": "Selected-workspace connections cannot be listed on the Marketplace.",
+      "refs": [
+        "n3"
+      ]
+    },
+    {
+      "title": "Authorization is per user",
+      "detail": "Each user authorizes separately and gets their own token for their workspace.",
+      "refs": [
+        "n1"
+      ]
+    }
   ],
   "blockers": [
-    { "problem": "You chose the wrong installation scope", "why": "It cannot be changed after creation.", "nextMove": "Create a new connection with the right scope and move your credentials over.", "refs": ["n3"] },
-    { "problem": "The authorization URL is not available yet", "why": "Notion's page says it appears after the connection is submitted for review, and does not say whether approval is required.", "nextMove": "Check the connection settings. If it is waiting on review, ask Notion support and plan for the wait.", "refs": ["n4"] },
-    { "problem": "Refresh stops working", "why": "Every refresh issues a new refresh token, so reusing an old one fails if you did not save the new pair.", "nextMove": "Store both tokens together and update them atomically.", "refs": ["n7"] },
-    { "problem": "Marketplace submission rejected", "why": "Reasons include brand or trademark issues, quality concerns or missing baseline criteria.", "nextMove": "Fix what the email names and resubmit.", "refs": ["n10"] }
+    {
+      "problem": "You chose the wrong installation scope",
+      "why": "It cannot be changed after creation.",
+      "nextMove": "Create a new connection with the right scope and move your credentials over.",
+      "refs": [
+        "n3"
+      ]
+    },
+    {
+      "problem": "The authorization URL is not available yet",
+      "why": "Notion's page says it appears after the connection is submitted for review, and does not say whether approval is required.",
+      "nextMove": "Check the connection settings. If it is waiting on review, ask Notion support and plan for the wait.",
+      "refs": [
+        "n4"
+      ]
+    },
+    {
+      "problem": "Refresh stops working",
+      "why": "Every refresh issues a new refresh token, so reusing an old one fails if you did not save the new pair.",
+      "nextMove": "Store both tokens together and update them atomically.",
+      "refs": [
+        "n7"
+      ]
+    },
+    {
+      "problem": "Marketplace submission rejected",
+      "why": "Reasons include brand or trademark issues, quality concerns or missing baseline criteria.",
+      "nextMove": "Fix what the email names and resubmit.",
+      "refs": [
+        "n10"
+      ]
+    }
   ],
   "handoff": {
     "agentCanDo": [
@@ -53,29 +186,167 @@
   "uncertainties": [
     "The pages read do not say whether Notion must approve a public connection before other users can authorize it. The authorization page says the authorization URL appears after submission for review.",
     "How long an access token lasts is not stated on the pages read.",
-    "The 5 to 10 business day figure is for the optional Marketplace review, not for OAuth access.",
+    "The 5 to 10 business day figure is when Notion says to expect to hear back about the optional Marketplace listing. It is not stated whether that is the decision, and it is not a time for OAuth access.",
     "Not tested hands-on. Creating a connection would settle the approval question in minutes."
   ],
   "claims": [
-    { "id": "n1", "text": "A public connection is an OAuth connection users install into their own workspaces, and each authorizing user gets a separate token scoped to their workspace.", "evidence": "official", "sources": ["https://developers.notion.com/guides/get-started/public-connections"], "check": { "status": "not_checked", "note": "Read through a summarizing fetch on 2026-11-01. Not yet re-checked by the verification agent." } },
-    { "id": "n2", "text": "Creating a public connection needs a name, development workspace, redirect URIs, installation scope and capabilities.", "evidence": "official", "sources": ["https://developers.notion.com/guides/get-started/public-connections"], "check": { "status": "not_checked", "note": "Read through a summarizing fetch on 2026-11-01. Not yet re-checked by the verification agent." } },
-    { "id": "n3", "text": "Installation scope cannot be changed after creation, and only Any-workspace connections can be listed on the Marketplace.", "evidence": "official", "sources": ["https://developers.notion.com/guides/get-started/public-connections", "https://developers.notion.com/docs/publishing-integrations-to-notions-integration-gallery"], "check": { "status": "not_checked", "note": "Read through a summarizing fetch on 2026-11-01. Not yet re-checked by the verification agent." } },
-    { "id": "n4", "text": "The client ID and secret come from the Configuration tab, and the authorization URL appears after the connection is submitted for review.", "evidence": "official", "sources": ["https://developers.notion.com/guides/get-started/authorization"], "check": { "status": "not_checked", "note": "Read through a summarizing fetch on 2026-11-01. Not yet re-checked by the verification agent." } },
-    { "id": "n5", "text": "Users are sent to the authorization URL with client_id, redirect_uri, response_type=code and owner=user, with an optional state value.", "evidence": "official", "sources": ["https://developers.notion.com/guides/get-started/authorization"], "check": { "status": "not_checked", "note": "Read through a summarizing fetch on 2026-11-01. Not yet re-checked by the verification agent." } },
-    { "id": "n6", "text": "The code is exchanged at the token endpoint with HTTP Basic auth using the client ID and secret, and the response includes access token, refresh token, bot ID, owner and workspace details.", "evidence": "official", "sources": ["https://developers.notion.com/guides/get-started/authorization"], "check": { "status": "not_checked", "note": "Read through a summarizing fetch on 2026-11-01. Not yet re-checked by the verification agent." } },
-    { "id": "n7", "text": "Each refresh returns a new access token and a new refresh token, so the new pair must be saved.", "evidence": "official", "sources": ["https://developers.notion.com/guides/get-started/authorization"], "check": { "status": "not_checked", "note": "Read through a summarizing fetch on 2026-11-01. Not yet re-checked by the verification agent." } },
-    { "id": "n9", "text": "Marketplace listing is optional, Notion's team reviews every submission, and the response comes by email within 5 to 10 business days.", "evidence": "official", "sources": ["https://developers.notion.com/docs/publishing-integrations-to-notions-integration-gallery"], "check": { "status": "not_checked", "note": "Read through a summarizing fetch on 2026-11-01. Not yet re-checked by the verification agent." } },
-    { "id": "n10", "text": "Reviews can reject a listing for brand or trademark issues, quality concerns or missing baseline criteria, and you can fix and resubmit.", "evidence": "official", "sources": ["https://developers.notion.com/docs/publishing-integrations-to-notions-integration-gallery"], "check": { "status": "not_checked", "note": "Read through a summarizing fetch on 2026-11-01. Not yet re-checked by the verification agent." } },
-    { "id": "n12", "text": "Setup takes roughly one to three hours of developer time.", "evidence": "inferred", "sources": [], "check": { "status": "not_checked", "note": "No page states this. It is an estimate." } }
+    {
+      "id": "n1",
+      "text": "A public connection is an OAuth connection users install into their own workspaces, and each authorizing user gets a separate token scoped to their workspace.",
+      "evidence": "official",
+      "sources": [
+        "https://developers.notion.com/guides/get-started/public-connections"
+      ],
+      "check": {
+        "status": "not_checked",
+        "note": "Read through a summarizing fetch on 2026-11-01. Not yet re-checked by the verification agent."
+      }
+    },
+    {
+      "id": "n2",
+      "text": "Creating a public connection needs a name, development workspace, redirect URIs, installation scope and capabilities.",
+      "evidence": "official",
+      "sources": [
+        "https://developers.notion.com/guides/get-started/public-connections"
+      ],
+      "check": {
+        "status": "not_checked",
+        "note": "Read through a summarizing fetch on 2026-11-01. Not yet re-checked by the verification agent."
+      }
+    },
+    {
+      "id": "n3",
+      "text": "Installation scope cannot be changed after creation, and only Any-workspace connections can be listed on the Marketplace.",
+      "evidence": "official",
+      "sources": [
+        "https://developers.notion.com/guides/get-started/public-connections",
+        "https://developers.notion.com/docs/publishing-integrations-to-notions-integration-gallery"
+      ],
+      "check": {
+        "status": "not_checked",
+        "note": "Read through a summarizing fetch on 2026-11-01. Not yet re-checked by the verification agent."
+      }
+    },
+    {
+      "id": "n4",
+      "text": "The client ID and secret come from the Configuration tab, and the authorization URL appears after the connection is submitted for review.",
+      "evidence": "official",
+      "sources": [
+        "https://developers.notion.com/guides/get-started/authorization"
+      ],
+      "check": {
+        "status": "not_checked",
+        "note": "Read through a summarizing fetch on 2026-11-01. Not yet re-checked by the verification agent."
+      }
+    },
+    {
+      "id": "n5",
+      "text": "Users are sent to the authorization URL with client_id, redirect_uri, response_type=code and owner=user, with an optional state value.",
+      "evidence": "official",
+      "sources": [
+        "https://developers.notion.com/guides/get-started/authorization"
+      ],
+      "check": {
+        "status": "not_checked",
+        "note": "Read through a summarizing fetch on 2026-11-01. Not yet re-checked by the verification agent."
+      }
+    },
+    {
+      "id": "n6",
+      "text": "The code is exchanged at the token endpoint with HTTP Basic auth using the client ID and secret, and the response includes access token, refresh token, bot ID, owner and workspace details.",
+      "evidence": "official",
+      "sources": [
+        "https://developers.notion.com/guides/get-started/authorization"
+      ],
+      "check": {
+        "status": "not_checked",
+        "note": "Read through a summarizing fetch on 2026-11-01. Not yet re-checked by the verification agent."
+      }
+    },
+    {
+      "id": "n7",
+      "text": "Each refresh returns a new access token and a new refresh token, so the new pair must be saved.",
+      "evidence": "official",
+      "sources": [
+        "https://developers.notion.com/guides/get-started/authorization"
+      ],
+      "check": {
+        "status": "not_checked",
+        "note": "Read through a summarizing fetch on 2026-11-01. Not yet re-checked by the verification agent."
+      }
+    },
+    {
+      "id": "n9",
+      "text": "Marketplace listing is optional, Notion's team reviews every submission, and the FAQ says to expect to hear back by email within 5 to 10 business days. The page does not say whether that is a decision or a first reply, and gives no time for resubmissions.",
+      "evidence": "official",
+      "sources": [
+        "https://developers.notion.com/docs/publishing-integrations-to-notions-integration-gallery"
+      ],
+      "check": {
+        "status": "not_checked",
+        "note": "Read through a summarizing fetch on 2026-11-01. Not yet re-checked by the verification agent."
+      }
+    },
+    {
+      "id": "n10",
+      "text": "Reviews can reject a listing for brand or trademark issues, quality concerns or missing baseline criteria, and you can fix and resubmit.",
+      "evidence": "official",
+      "sources": [
+        "https://developers.notion.com/docs/publishing-integrations-to-notions-integration-gallery"
+      ],
+      "check": {
+        "status": "not_checked",
+        "note": "Read through a summarizing fetch on 2026-11-01. Not yet re-checked by the verification agent."
+      }
+    },
+    {
+      "id": "n12",
+      "text": "Setup takes roughly one to three hours of developer time.",
+      "evidence": "inferred",
+      "sources": [],
+      "check": {
+        "status": "not_checked",
+        "note": "No page states this. It is an estimate."
+      }
+    }
   ],
   "sources": [
-    { "url": "https://developers.notion.com/guides/get-started/authorization", "title": "Authorization (Notion Docs)", "kind": "official", "status": "read", "note": "Token exchange, refresh, authorization URL wording." },
-    { "url": "https://developers.notion.com/guides/get-started/public-connections", "title": "Public connections (Notion Docs)", "kind": "official", "status": "read", "note": "Installation scope and required fields." },
-    { "url": "https://developers.notion.com/docs/publishing-integrations-to-notions-integration-gallery", "title": "List on the Marketplace (Notion Docs)", "kind": "official", "status": "read", "note": "Listing requirements and the 5 to 10 business day review." }
+    {
+      "url": "https://developers.notion.com/guides/get-started/authorization",
+      "title": "Authorization (Notion Docs)",
+      "kind": "official",
+      "status": "read",
+      "note": "Token exchange, refresh, authorization URL wording."
+    },
+    {
+      "url": "https://developers.notion.com/guides/get-started/public-connections",
+      "title": "Public connections (Notion Docs)",
+      "kind": "official",
+      "status": "read",
+      "note": "Installation scope and required fields."
+    },
+    {
+      "url": "https://developers.notion.com/docs/publishing-integrations-to-notions-integration-gallery",
+      "title": "List on the Marketplace (Notion Docs)",
+      "kind": "official",
+      "status": "read",
+      "note": "Listing requirements and the 5 to 10 business day reply window."
+    }
   ],
-  "composio": { "managedAuth": "unknown", "source": "none", "note": "Not checked. Composio publishes this per toolkit (composio_managed_auth_schemes). Set COMPOSIO_API_KEY to look it up." },
-  "handsOn": { "tested": false, "note": "Not tested hands-on. Creating a public connection would show whether the authorization URL needs approval." },
+  "composio": {
+    "managedAuth": "unknown",
+    "source": "none",
+    "note": "Not checked. Composio publishes this per toolkit (composio_managed_auth_schemes). Set COMPOSIO_API_KEY to look it up."
+  },
+  "handsOn": {
+    "tested": false,
+    "note": "Not tested hands-on. Creating a public connection would show whether the authorization URL needs approval."
+  },
   "corrections": [
-    { "was": "Public connection pages look like they describe a complete approval path.", "now": "They never say whether Notion must approve a connection before others use it.", "why": "The public connections page does not mention approval, and the authorization page says the authorization URL appears after submission for review. Left as an open question." }
+    {
+      "was": "Public connection pages look like they describe a complete approval path.",
+      "now": "They never say whether Notion must approve a connection before others use it.",
+      "why": "The public connections page does not mention approval, and the authorization page says the authorization URL appears after submission for review. Left as an open question."
+    }
   ]
 }

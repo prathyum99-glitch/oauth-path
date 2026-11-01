@@ -34,6 +34,20 @@ What was checked against real sources, what that taught, what was corrected, and
 - **No setup was run by hand.** Every guide shows "Tested by a person: No". A 20 minute Discord Developer Portal run and a Notion public-connection creation are the cheapest ways to earn a real "tested" label.
 - **The live pipeline has not been run against the real model** in the build sandbox, which had no API key. It is tested end to end against a scripted model (`tests/pipeline.test.ts`). `npm run smoke -- "QuickBooks"` runs it for real.
 
+## Second pass: spot-check of five high-stakes pages (2026-11-01, after the first build)
+
+Re-read through a summarising fetch tool, asking for exact numbers and for what each page does *not* say. This is not the independent verifier agent (that needs an API key), so seed claims stay "not re-checked".
+
+| Page | Result |
+|---|---|
+| Slack Marketplace install requirement | **Confirmed**: at least 10 installs on active workspaces, kept through review. **Tightened**: the page says "as of July 2026" (the post is dated 2026-09-01), says it is "up from a temporary lower threshold", and does not define an active workspace. Guide updated. |
+| Google OAuth verification FAQ | **Confirmed**: 100 new-user lifetime cap that cannot be reset; sensitive 10 business days; restricted 6 weeks; brand verification 2 to 3 business days; estimates not guaranteed. No change. |
+| Notion Marketplace FAQ | **Corrected**: the page says to "expect to hear back" in 5 to 10 business days. It does not say whether that is a decision or a first reply. The guide had called it a "review" time. Wording fixed in the headline, wait label, claim and step. Listing optional and Any-workspace scope required: confirmed. |
+| LinkedIn authorization code flow | **Confirmed**: 30 minute code, 60 day access token, programmatic refresh limited to partners, https absolute redirect URLs without fragments. **Not stated**: refresh token lifetime, whether localhost redirects are allowed. No change. |
+| Reddit Data API wiki | **Corrected**: the page gives 100 queries per minute per OAuth client ID (10 without OAuth, 10 minute window) with a July 1, 2023 effective date, and does not mention free-tier eligibility, so the guide no longer says "free-tier eligible". Added the User-Agent format. Confirmed again: the page does not explain how to register an app. |
+
+Net effect of the pass: two wording corrections that would have overstated what a provider said (Notion, Reddit), one added caveat (Slack), and no wrong numbers found among the figures checked.
+
 ## Checks that did run
 
 - `npm test`: 27 tests, including: an official claim that cites an unread page is demoted; a claim its cited page does not support is demoted and listed as a correction; research survives `pause_turn` and a strict-mode 400; fetches to localhost, private IPs, `http://`, credentials, odd ports and redirects into private space are refused; a seed slug can never be overwritten by a live guide.
